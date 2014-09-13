@@ -1,5 +1,4 @@
 from flask import Flask
-from flask.ext.login import LoginManager
 
 import settings
 
@@ -9,7 +8,9 @@ app.config.from_object(settings)
 
 from flask.ext.sqlalchemy import SQLAlchemy
 db = SQLAlchemy(app)
-db = SQLAlchemy(app)
+
+from flask.ext.script import Manager as ScriptManager
+script_manager = ScriptManager(app)
 
 if __name__ == '__main__':
   app.run(debug=True)
