@@ -1,6 +1,7 @@
 from app import app, db
 from unittest import TestCase
-from ext.shell.lib import init_db
+from flask.ext.sqlalchemy import SQLAlchemy
+from ext.shell.lib import init_db, drop_all
 
 import os
 import tempfile
@@ -15,14 +16,19 @@ class BaseTestCase(TestCase):
     '''
       - It prepares tests.
     '''
-    self.db_fd, app.config['DATABASE'] = tempfile.mkstemp()
+    self.db_fd, self.database_uri = tempfile.mkstemp()
+    app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///%s' % self.database_uri
     app.config['TESTING'] = True
-    self.app = app.test_client()
+    db.init_app(app)
     init_db()
+    self.app = app.test_client()
+    
+    
 
   def tearDown(self):
     '''
       - It clears traces after the execution of tests.
     '''
-    os.close(self.db_fd)
-    os.unlink(app.config['DATABASE'])
+    ##drop_all()
+    ##os.close(self.db_fd)
+    #os.unlink(self.database_uri)
