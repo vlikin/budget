@@ -6,7 +6,10 @@ class UserTable(db.Model):
   email = db.Column(db.String(120), unique=True)
   password = db.Column(db.String)
   username = db.Column(db.String(80), unique=False)
-  budget_bridge = relationship('BudgetUserTable', backref='user')
+
+  budget_user_bridge = relationship('BudgetUserTable', backref='user')
+  contribution_bridge = relationship('ContributionTable', backref='user')
+  expense_bridge = relationship('ExpenseTable', backref='user')
 
   def __init__(self, email, password):
     self.email = email

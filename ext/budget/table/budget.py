@@ -8,13 +8,16 @@ class BudgetTable(db.Model):
   created = db.Column(db.DateTime, default=datetime.utcnow, nullable=False)
   updated = db.Column(db.DateTime, default=datetime.utcnow, nullable=False)
 
-  user_bridge = relationship('BudgetUserTable', backref='budget')
+  user_budget_bridge = relationship('BudgetUserTable', backref='budget')
+  tag_bridge = relationship('TagTable', backref='budget')
+  contribution_bridge = relationship('ContributionTable', backref='budget')
+  expense_bridge = relationship('ExpenseTable', backref='budget')
 
   def __init__(self, title):
     self.title = title
 
   def __repr__(self):
-    return '<Budget title=%s>' % (self.title)
+    return '<Budget id=%d title=%s>' % (self.id, self.title)
 
 @db.event.listens_for(BudgetTable, 'before_update', propagate=True)
 def timestamp_before_update(mapper, connection, target):

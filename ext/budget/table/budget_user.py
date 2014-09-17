@@ -23,10 +23,10 @@ class BudgetUserTable(db.Model):
   def get_key(search_value):
     return next((name for key, value in BudgetUserTable.roles.items() if value == search_value), None)
 
-  def __init__(self, budget_id, user_id, role):
+  def __init__(self, budget_id, user_id, role='watcher'):
+    self.budget_id = budget_id
     self.user_id = user_id
-    self.friend_id = friend_id
     self.role = BudgetUserTable.roles[role]
 
   def __repr__(self):
-    return '<Friend id=%d user_id=%d budget_id=%d status=%s>' % (self.id, self.user_id, self.friend_id, self.status)
+    return '<BudgetUser id=%d budget_id=%d user_id=%d role=%s>' % (self.id, self.budget_id, self.user_id, self.role)
