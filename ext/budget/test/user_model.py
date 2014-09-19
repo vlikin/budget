@@ -11,6 +11,7 @@ class UserModelTestCase(BaseTestCase):
     password='test_user_password'
   )
   test_user = None
+  another_test_user = None
 
   def test_user(self):
     # Is an email free?

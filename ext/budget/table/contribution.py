@@ -18,7 +18,7 @@ class ContributionTable(db.Model):
   created = db.Column(db.DateTime, default=datetime.utcnow, nullable=False)
   updated = db.Column(db.DateTime, default=datetime.utcnow, nullable=False)
 
-  def __init__(self, budget_id, user_id, amount, description):
+  def __init__(self, budget_id, user_id, amount, description=''):
     self.user_id = user_id
     self.budget_id = budget_id
     self.amount = amount

@@ -26,7 +26,7 @@ class BudgetUserTable(db.Model):
   def __init__(self, budget_id, user_id, role='watcher'):
     self.budget_id = budget_id
     self.user_id = user_id
-    self.role = BudgetUserTable.roles[role]
+    self.role = self.roles[role]
 
   def __repr__(self):
     return '<BudgetUser id=%d budget_id=%d user_id=%d role=%s>' % (self.id, self.budget_id, self.user_id, self.role)

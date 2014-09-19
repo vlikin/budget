@@ -1,6 +1,8 @@
-from ext.budget.model.tag import TagModel
-from ext.budget.model.budget import BudgetModel
-from ext.budget.test.base import BaseTestCase
+from ..test.base import BaseTestCase
+
+from ..model.tag import TagModel
+from ..model.budget import BudgetModel
+from ..model.user import UserModel
 
 class TagModelTestCase(BaseTestCase):
   '''
@@ -14,9 +16,14 @@ class TagModelTestCase(BaseTestCase):
     title='test_tag_title',
   )
   test_tag = None
+  test_user=None
 
   def test_budget(self):
-    self.test_budget = BudgetModel.create(self.test_budget_data['title'])
+    # Creates a test user.
+    username = 'user 1'
+    self.test_user = UserModel.register('%s@example.com' % username, username, username)
+
+    self.test_budget = BudgetModel.create(self.test_budget_data['title'], self.test_user.id)
     self.test_tag = TagModel.create(self.test_tag_data['title'], self.test_budget.id)
     assert self.test_tag.title == self.test_tag_data['title']
     assert self.test_tag.budget_id == self.test_budget.id
