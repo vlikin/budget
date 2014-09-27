@@ -1,5 +1,7 @@
 from ext.budget.model.budget import BudgetModel
 from ext.budget.model.user import UserModel
+from ext.budget.model.tag import TagModel
+
 from ext.budget.test.base import BaseTestCase
 
 class BudgetModelTestCase(BaseTestCase):
@@ -69,24 +71,14 @@ class BudgetModelTestCase(BaseTestCase):
     another_contribution = budget.load_contribution_by_id(contribution_dict['id'])
     assert another_contribution is None
 
+    tag_1 = TagModel.create('tag_1', budget.id)
+    tag_2 = TagModel.create('tag_2', budget.id)
+    tag_3 = TagModel.create('tag_3', budget.id)
+    tag_4 = TagModel.create('tag_4', budget.id)
+
     # Registers an expense.
     expense_dict = dict(
       user_id=user.id,
       amount=40,
       description='Bought bananas at the market.'
     )
-    expense = budget.add_expense(expense_dict['user_id'], expense_dict['amount'], expense_dict['description'])
-    assert (expense.id > 0\
-      and expense.user_id == expense_dict['user_id']\
-      and expense.amount == expense_dict['amount']\
-      and expense.description == expense_dict['description'])
-    expense_dict['id'] = expense.id
-
-    # Loads the expense.
-    another_expense = budget.load_expense_by_id(expense_dict['id'])
-    assert another_expense.id > 0 and another_expense.id == expense_dict['id']
-
-    # Deletes the expense.
-    budget.remove_expense_by_id(expense_dict['id'])
-    another_expense = budget.load_expense_by_id(expense_dict['id'])
-    assert another_expense is None

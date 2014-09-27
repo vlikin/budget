@@ -3,10 +3,21 @@ from . import lib
 
 @script_manager.command
 def drop_all():
-  '''It drops all tables.'''
+  '''
+    -It drops all tables.
+  '''
   lib.drop_all()
 
 @script_manager.command
 def init_db():
-  '''It creates the initial database.'''
+  '''
+    -It creates the initial database.
+  '''
   lib.init_db()
+
+@script_manager.command
+def init_test():
+  '''
+    - Fills the system by test data.
+  '''
+  lib.init_test()

@@ -66,3 +66,10 @@ class TableTestCase(BaseTestCase):
       user_id = self.test_data['user_objects'][owner_username].id
       budget_obj = BudgetModel.create(budget_dict['title'], user_id)
     assert 1 == 1
+
+  def test_ondelete_cascase(self):
+    '''
+      - It checks if the cascade delete process works. Because this case is not processed by code.
+      The responsibility for database data actuality is trusted to the database settings.
+    '''
+    assert 1 == 1

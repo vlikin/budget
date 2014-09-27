@@ -5,6 +5,7 @@ from ..table.budget import BudgetTable
 from ..table.budget_user import BudgetUserTable
 from ..table.contribution import ContributionTable
 from ..table.expense import ExpenseTable
+from ..table.expense_tag import ExpenseTagTable
 
 
 class BudgetModel(BudgetTable):
@@ -65,29 +66,3 @@ class BudgetModel(BudgetTable):
 
   def remove_contribution_by_id(self, id):
     ContributionTable.query.filter(ContributionTable.id==id).delete()
-
-  def add_expense(self, user_id, amount, description="", commit=True):
-    expense = ExpenseTable(self.id, user_id, amount, description)
-    if commit:
-      db.session.add(expense)
-      db.session.commit()
-    return expense
-
-  def load_expense_by_id(self, id):
-    return ExpenseTable.query.filter(ExpenseTable.id==id).first()
-
-  def remove_expense_by_id(self, id):
-    ExpenseTable.query.filter(ExpenseTable.id==id).delete()
-
-  def add_tag(self, title, budget_id, parent_id=None, commit=True):
-    tag = TagTable(self.id, title, budget_id, parent_id)
-    if commit:
-      db.session.add(tag)
-      db.session.commit()
-    return tag
-
-  def load_tag_by_id(self, id):
-    return TagTable.query.filter(TagTable.id==id).first()
-
-  def remove_tag_by_id(self, id):
-    TagTable.query.filter(TagTable.id==id).delete()

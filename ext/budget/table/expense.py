@@ -28,7 +28,7 @@ class ExpenseTable(db.Model):
     self.description = description
 
   def __repr__(self):
-    return '<Expense id=%d budget_id=%d user_id=%d amount=%s>' % (self.id, self.budget_id, self.user_id, self.amount)
+    return '<Expense id=%d budget_id=%d user_id=%d amount=%d>' % (self.id, self.budget_id, self.user_id, self.amount)
 
 @db.event.listens_for(ExpenseTable, 'before_update', propagate=True)
 def timestamp_before_update(mapper, connection, target):
