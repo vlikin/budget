@@ -12,5 +12,8 @@ db = SQLAlchemy(app)
 from flask.ext.script import Manager as ScriptManager
 script_manager = ScriptManager(app)
 
+# REST.
+import ext.user.rest
+
 if __name__ == '__main__':
   app.run(debug=True)
