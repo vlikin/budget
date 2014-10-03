@@ -1,6 +1,6 @@
 from app import db
-from .user import UserTable
 from .budget import BudgetTable
+from ext.user.table.user import UserTable
 
 class BudgetUserTable(db.Model):
   __table_args__ = (

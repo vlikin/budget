@@ -1,4 +1,4 @@
-from ext.budget.test.base import BaseTestCase
+from ext.shell.test.base import BaseTestCase
 
 from ..table.budget import BudgetTable
 from ..table.budget_user import BudgetUserTable
@@ -6,9 +6,8 @@ from ..table.contribution import ContributionTable
 from ..table.expense import ExpenseTable
 from ..table.expense_tag import ExpenseTagTable
 from ..table.tag import TagTable
-from ..table.user import UserTable
 
-from ..model.user import UserModel
+from ext.user.model.user import UserModel
 from ..model.budget import BudgetModel
 
 class TableTestCase(BaseTestCase):

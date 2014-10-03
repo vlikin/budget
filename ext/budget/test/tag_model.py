@@ -1,8 +1,8 @@
-from ..test.base import BaseTestCase
+from ext.shell.test.base import BaseTestCase
 
 from ..model.tag import TagModel
 from ..model.budget import BudgetModel
-from ..model.user import UserModel
+from ext.user.model.user import UserModel
 
 class TagModelTestCase(BaseTestCase):
   '''

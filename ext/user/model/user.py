@@ -1,5 +1,5 @@
 from app import db
-from ext.budget.table.user import UserTable
+from ..table.user import UserTable
 
 class UserModel(UserTable):
 

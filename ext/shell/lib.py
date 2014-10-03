@@ -1,12 +1,13 @@
 from app import db
-from ext.budget.model.user import UserModel
 from ext.budget.model.budget import BudgetModel
 from ext.budget.model.tag import TagModel
+from ext.user.model.user import UserModel
 
 def rebuild_db():
   '''
     - It initialize the database at the first time. Be careful.
   '''
+  import ext.user.table
   import ext.budget.table
   db.session.close()
   db.drop_all()

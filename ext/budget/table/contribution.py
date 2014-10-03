@@ -1,8 +1,8 @@
 from app import db
 from datetime import datetime
 
-from .user import UserTable
 from .budget import BudgetTable
+from ext.user.table.user import UserTable
 
 class ContributionTable(db.Model):
   __table_args__ = (

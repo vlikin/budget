@@ -1,5 +1,5 @@
-from ext.budget.model.user import UserModel
-from ext.budget.test.base import BaseTestCase
+from ..model.user import UserModel
+from ext.shell.test.base import BaseTestCase
 
 class UserModelTestCase(BaseTestCase):
   '''

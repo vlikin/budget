@@ -1,8 +1,8 @@
-from ext.budget.model.budget import BudgetModel
-from ext.budget.model.user import UserModel
-from ext.budget.model.tag import TagModel
+from ..model.budget import BudgetModel
+from ..model.tag import TagModel
+from ext.user.model.user import UserModel
 
-from ext.budget.test.base import BaseTestCase
+from ext.shell.test.base import BaseTestCase
 
 class BudgetModelTestCase(BaseTestCase):
   '''
