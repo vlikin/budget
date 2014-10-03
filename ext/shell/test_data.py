@@ -1,5 +1,5 @@
 test_data = dict(
-    users = ['user 1', 'user 2', 'user3'],
+    users = ['user 1', 'user 2', 'user 3'],
     user_objects = {},
     budgets = [
       dict(
@@ -8,7 +8,7 @@ test_data = dict(
         users = ['user 1', 'user 2', 'user 3'],
         tags = ['tag 1', 'tag 2', 'tag 3', 'tag 4'],
         tag_objects = dict(),
-        contribution = [
+        contributions = [
           dict(
             user='user 1',
             amount='200'
@@ -26,16 +26,18 @@ test_data = dict(
             amount='800'
           ),
         ],
-        expense = [
+        expenses = [
           dict(
             user='user 1',
             amount='80',
-            tags = ['tag 1', 'tag 4']
+            tags = ['tag 1', 'tag 4'],
+            description = 'User 1 income.'
           ),
           dict(
             user='user 2',
             amount='160',
-            tags = ['tag 2', 'tag 3']
+            tags = ['tag 2', 'tag 3'],
+            description = 'User 2 income.'
           ),
         ],
       )
