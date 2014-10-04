@@ -24,6 +24,9 @@ class ExpenseModel(ExpenseTable):
 
   @staticmethod
   def create(budget_id, user_id, amount, tag_list=[], description=""):
+    '''
+      - An expense is created and attached to the budget.
+    '''
     expense = ExpenseTable(budget_id, user_id, amount, description)
     db.session.add(expense)
     db.session.commit()
