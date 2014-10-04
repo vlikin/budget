@@ -20,7 +20,7 @@ def drop_all():
   '''
   db.drop_all()
 
-def init_test():
+def init_test_db():
   '''
     - Fills the system by test data.
   '''

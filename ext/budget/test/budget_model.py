@@ -1,8 +1,10 @@
 from ..model.budget import BudgetModel
 from ..model.tag import TagModel
+
+from ext.core.exception import LogicException
+from ext.shell.test.base import BaseTestCase
 from ext.user.model.user import UserModel
 
-from ext.shell.test.base import BaseTestCase
 
 class BudgetModelTestCase(BaseTestCase):
   '''
@@ -24,11 +26,6 @@ class BudgetModelTestCase(BaseTestCase):
     another_budget_object = BudgetModel.load_by_id(budget_id)
     assert another_budget_object.id == budget_id
 
-    # Deletes a budget by id.
-    BudgetModel.delete_by_id(budget_id)
-    another_budget_object = BudgetModel.load_by_id(budget_id)
-    assert another_budget_object is None
-
     # Attaches another user to the budget.
     username = 'user 2'
     another_user = UserModel.register('%s@example.com' % username, username, username)
@@ -36,13 +33,15 @@ class BudgetModelTestCase(BaseTestCase):
     assert budget_user.user_id == another_user.id and budget_user.budget_id == budget.id
 
     # Attaches a user at the second time.
-    self.assertRaises(Exception, budget.attach_user, (user.id, 'owner'))
+    print another_user.id
+    print another_user.username
+    self.assertRaises(LogicException, budget.attach_user, another_user.id, 'watcher')
 
     # Checks if the user is attached.
     assert budget.user_is_attached(user.id)
 
     # Deattaches the single owner from the budget.
-    self.assertRaises(Exception, budget.deattach_user, (user.id))
+    self.assertRaises(Exception, budget.deattach_user, user.id)
 
     # Deattaches the user.
     budget.deattach_user(another_user.id)
@@ -66,11 +65,6 @@ class BudgetModelTestCase(BaseTestCase):
     another_contribution = budget.load_contribution_by_id(contribution_dict['id'])
     assert another_contribution.id > 0 and another_contribution.id == contribution_dict['id']
 
-    # Deletes the contribution.
-    budget.remove_contribution_by_id(contribution_dict['id'])
-    another_contribution = budget.load_contribution_by_id(contribution_dict['id'])
-    assert another_contribution is None
-
     tag_1 = TagModel.create('tag_1', budget.id)
     tag_2 = TagModel.create('tag_2', budget.id)
     tag_3 = TagModel.create('tag_3', budget.id)
@@ -82,3 +76,16 @@ class BudgetModelTestCase(BaseTestCase):
       amount=40,
       description='Bought bananas at the market.'
     )
+    # @todo It is not finished.
+
+    # Deletion ---- .
+
+    # Deletes the contribution.
+    budget.remove_contribution_by_id(contribution_dict['id'])
+    another_contribution = budget.load_contribution_by_id(contribution_dict['id'])
+    assert another_contribution is None
+
+    # Deletes a budget by id.
+    BudgetModel.delete_by_id(budget_id)
+    another_budget_object = BudgetModel.load_by_id(budget_id)
+    assert another_budget_object is None

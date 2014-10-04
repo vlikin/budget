@@ -1,6 +1,10 @@
 from app import db
+
 from ..table.expense import ExpenseTable
 from ..table.expense_tag import ExpenseTagTable
+
+from ext.core.exception import LogicException
+
 
 class ExpenseModel(ExpenseTable):
 
@@ -25,7 +29,7 @@ class ExpenseModel(ExpenseTable):
     db.session.commit()
     for tag in tag_list:
       if tag.budget_id != budget_id:
-        raise Exception('You should not attach a tag from another budget.')
+        raise LogicException('You should not attach a tag from another budget.')
       expense_tag = ExpenseTagTable(expense.id, tag.id)
       db.session.add(expense_tag)
     db.session.commit()

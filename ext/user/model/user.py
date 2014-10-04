@@ -1,5 +1,8 @@
 from app import db
+from ext.core.exception import LogicException
 from ..table.user import UserTable
+
+
 
 class UserModel(UserTable):
 
@@ -23,7 +26,7 @@ class UserModel(UserTable):
       - It registers a user into the system.
     '''
     if not UserModel.is_free(email):
-      raise Exception('A such email is used.')
+      raise LogicException('A such email is used.')
     user = UserModel(email, password)
     user.username = username
     db.session.add(user)
@@ -45,7 +48,7 @@ class UserModel(UserTable):
       - It tries to update user's profile correctly.
     '''
     if ('email' in profile and self.email != profile['email']) and not UserModel.is_free(profile['email']):
-      raise Exception('A such email is used.')
+      raise LogicException('A such email is used.')
 
     if 'password' in profile and profile['password']=='':
       del(profile['password'])

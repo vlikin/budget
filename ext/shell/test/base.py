@@ -1,6 +1,6 @@
 from app import app, db
 from unittest import TestCase
-from ext.shell.lib import rebuild_db, drop_all
+from ext.shell.lib import init_test_db, rebuild_db, drop_all
 
 class BaseTestCase(TestCase):
   '''
@@ -12,7 +12,8 @@ class BaseTestCase(TestCase):
       - It prepares tests.
     '''
     rebuild_db()
-    self.app = app.test_client()
+    #init_test_db()
+    self.client = app.test_client()
 
   def tearDown(self):
     '''

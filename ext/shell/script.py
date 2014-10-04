@@ -16,8 +16,8 @@ def init_db():
   lib.init_db()
 
 @script_manager.command
-def init_test():
+def init_test_db():
   '''
     - Fills the system by test data.
   '''
-  lib.init_test()
+  lib.init_test_db()
