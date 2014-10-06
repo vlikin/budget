@@ -21,6 +21,15 @@ class UserModel(UserTable):
     return UserModel.query.filter(UserModel.id==user_id).first()
 
   @staticmethod
+  def load_by_name(name):
+    '''
+      - It loads a user by his name.
+
+      @test = false
+    '''
+    return UserModel.query.filter(UserModel.username==name).first()
+
+  @staticmethod
   def register(email, password, username=''):
     '''
       - It registers a user into the system.
@@ -42,6 +51,16 @@ class UserModel(UserTable):
       UserModel.email==email
     ).first()
     return user is None
+
+  @staticmethod
+  def check_auth_by_pass(username, password):
+    '''
+      - It checks if a username password combination is valid.
+
+      @test = false
+    '''
+    user = UserModel.load_by_name(username)
+    return user.username == username and user.password == password
 
   def update_profile(self, profile=dict()):
     '''

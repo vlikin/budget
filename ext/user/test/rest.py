@@ -17,5 +17,5 @@ class UserRestTestCase(BaseTestCase):
     self.test_user = UserModel.register(user_dict['email'], user_dict['password'], user_dict['username'])
     response = self.client.post('/user/rest/login', data=user_dict, follow_redirects=True)
     data=json.loads(response.data)
-    assert response.status == 200
+    assert response.status_code == 200
     assert data['ok'] == 'ok'
