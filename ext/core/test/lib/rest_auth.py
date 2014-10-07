@@ -17,10 +17,9 @@ class RestAuthTestCase(BaseTestCase):
       email='user_1@example.com'
     )
     user_obj = UserModel.register(user_dict['email'], user_dict['password'], user_dict['name'])
-    assert check_auth(user_obj.username, user_obj.password)
 
-    @requires_auth
     @app.route('/test_route/')
+    @requires_auth
     def route():
       return 'text'
 

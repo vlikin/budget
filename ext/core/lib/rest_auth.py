@@ -5,14 +5,11 @@ from ext.user.model.user import UserModel
 # User object, initialized once.
 user = None
 
-def check_auth(username, password, reset=False):
+def check_auth():
   '''
     - This function is called to check if a username password combination is valid.
   '''
-  global user
-  if not user or reset:
-    user = UserModel.load_by_name(username)
-  return user.username == username and user.password == password
+  return hasattr(request.session, 'user') and request.session['user'].id > 0
 
 def return_login_required():
   '''
@@ -33,8 +30,7 @@ def login(user):
 def requires_auth(f):
   @wraps(f)
   def decorated(*args, **kwargs):
-    auth = request.authorization
-    if not auth or not check_auth(auth.username, auth.password):
+    if not check_auth():
       return return_login_required()
     return f(*args, **kwargs)
   return decorated
