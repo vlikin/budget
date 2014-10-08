@@ -1,6 +1,8 @@
 from functools import wraps
-from flask import request, Response
+from flask import request, Response, session
 from ext.user.model.user import UserModel
+
+import pdb
 
 # User object, initialized once.
 user = None
@@ -9,7 +11,7 @@ def check_auth():
   '''
     - This function is called to check if a username password combination is valid.
   '''
-  return hasattr(request.session, 'user') and request.session['user'].id > 0
+  return ('user' in session) and session['user']['id'] > 0
 
 def return_login_required():
   '''
@@ -23,9 +25,12 @@ def return_login_required():
 
 def login(user):
   '''
-    - 
+    - It logs in a user to the session.
   '''
-  flask.session['user'] = user
+  session['user'] = dict(
+    id=user.id,
+    name=user.username
+  )
 
 def requires_auth(f):
   @wraps(f)
