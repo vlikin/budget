@@ -28,20 +28,20 @@ def init_test_db():
   from .test_data import test_data
 
   # User creation.
-  for username in test_data['users']:
-    test_data['user_objects'][username] =  UserModel.register('%s@example.com' % username, username, username)
+  for name in test_data['users']:
+    test_data['user_objects'][name] =  UserModel.register('%s@example.com' % name, name, name)
 
   # Budget creation.
   for budget_dict in test_data['budgets']:
     # Budget creation.
-    owner_username = test_data['users'][0]
-    user_id = test_data['user_objects'][owner_username].id
+    owner_name = test_data['users'][0]
+    user_id = test_data['user_objects'][owner_name].id
     budget_object = BudgetModel.create(budget_dict['title'], user_id)
     budget_dict['budget_object'] = budget_object
 
     # Users are attached to the budget.
-    for username in  test_data['users'][1:]:
-      user_object = test_data['user_objects'][username]
+    for name in  test_data['users'][1:]:
+      user_object = test_data['user_objects'][name]
       budget_object.attach_user(user_object.id)
 
     # Tag creation.

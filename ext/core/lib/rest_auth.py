@@ -6,7 +6,7 @@ import pdb
 
 def check_auth():
   '''
-    - This function is called to check if a username password combination is valid.
+    - This function is called to check if a name password combination is valid.
   '''
   return ('user' in session) and session['user']['id'] > 0
 
@@ -26,7 +26,7 @@ def login(user):
   '''
   session['user'] = dict(
     id=user.id,
-    name=user.username
+    name=user.name
   )
 
 def get_current_user():

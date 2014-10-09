@@ -22,11 +22,11 @@ class BaseTestCase(TestCase):
     db.session.close()
     drop_all()
 
-  def login(self, username, password):
+  def login(self, name, password):
     '''
       - It logins an user to the system.
     '''
     return self.app.post('/login/', data=dict(
-      username=username,
+      name=name,
       password=password,
     ), follow_redirects=True)

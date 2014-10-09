@@ -58,11 +58,11 @@ class TableTestCase(BaseTestCase):
   )
 
   def test_repr(self):
-    for username in self.test_data['users']:
-      self.test_data['user_objects'][username] =  UserModel.register('%s@example.com' % username, username, username)
+    for name in self.test_data['users']:
+      self.test_data['user_objects'][name] =  UserModel.register('%s@example.com' % name, name, name)
     for budget_dict in self.test_data['budgets']:
-      owner_username = self.test_data['users'][0]
-      user_id = self.test_data['user_objects'][owner_username].id
+      owner_name = self.test_data['users'][0]
+      user_id = self.test_data['user_objects'][owner_name].id
       budget_obj = BudgetModel.create(budget_dict['title'], user_id)
     assert 1 == 1
 

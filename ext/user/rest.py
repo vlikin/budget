@@ -4,8 +4,8 @@ from ext.core.lib.rest_auth import login, requires_auth, get_current_user, logou
 
 @app.route('/user/rest/login', methods=['GET', 'POST'])
 def login():
-  name = request.args['name']
-  password = request.args['password']
+  #name = request.args['name']
+  #password = request.args['password']
   return jsonify({'ok': 'ok'})
 
 @app.route('/user/rest/logout', methods=['GET', 'POST'])

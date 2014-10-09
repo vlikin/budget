@@ -6,7 +6,7 @@ class UserModelTestCase(BaseTestCase):
     - It tests the core functionality.
   '''
   test_user_data = dict(
-    username='test_user_username',
+    name='test_user_name',
     email='test_user_email@example.com',
     password='test_user_password'
   )
@@ -18,13 +18,13 @@ class UserModelTestCase(BaseTestCase):
     assert UserModel.is_free(self.test_user_data['email'])
 
     # It registers a user.
-    self.test_user = UserModel.register(self.test_user_data['email'], self.test_user_data['password'], self.test_user_data['username'])
+    self.test_user = UserModel.register(self.test_user_data['email'], self.test_user_data['password'], self.test_user_data['name'])
     assert self.test_user.email == self.test_user_data['email']
-    assert self.test_user.username == self.test_user_data['username']
+    assert self.test_user.name == self.test_user_data['name']
 
     # It checks that the user has been already registered.
     assert not UserModel.is_free(self.test_user_data['email'])
-    self.assertRaises(Exception, UserModel.register, (self.test_user_data['email'], self.test_user_data['password'], self.test_user_data['username']))
+    self.assertRaises(Exception, UserModel.register, (self.test_user_data['email'], self.test_user_data['password'], self.test_user_data['name']))
 
     # It loads a user by id
     another_user_object = UserModel.load_by_id(self.test_user.id)

@@ -13,8 +13,8 @@ class BudgetModelTestCase(BaseTestCase):
 
   def test_budget(self):
     # Creates a test user.
-    username = 'user 1'
-    user = UserModel.register('%s@example.com' % username, username, username)
+    name = 'user 1'
+    user = UserModel.register('%s@example.com' % name, name, name)
 
     # Creates a budget, attaches an owner.
     budget_title = 'budget_title'
@@ -27,14 +27,14 @@ class BudgetModelTestCase(BaseTestCase):
     assert another_budget_object.id == budget_id
 
     # Attaches another user to the budget.
-    username = 'user 2'
-    another_user = UserModel.register('%s@example.com' % username, username, username)
+    name = 'user 2'
+    another_user = UserModel.register('%s@example.com' % name, name, name)
     budget_user = budget.attach_user(another_user.id, 'watcher')
     assert budget_user.user_id == another_user.id and budget_user.budget_id == budget.id
 
     # Attaches a user at the second time.
     print another_user.id
-    print another_user.username
+    print another_user.name
     self.assertRaises(LogicException, budget.attach_user, another_user.id, 'watcher')
 
     # Checks if the user is attached.

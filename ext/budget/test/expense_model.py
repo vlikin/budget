@@ -12,8 +12,8 @@ class ExpenseModelTestCase(BaseTestCase):
 
   def test_budget(self):
     # Creates a test user.
-    username = 'user 1'
-    user = UserModel.register('%s@example.com' % username, username, username)
+    name = 'user 1'
+    user = UserModel.register('%s@example.com' % name, name, name)
     
     # Creates a budget, attaches an owner.
     budget_title = 'budget_title'

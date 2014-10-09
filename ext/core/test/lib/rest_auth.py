@@ -45,7 +45,7 @@ class RestAuthTestCase(BaseTestCase):
       with client.session_transaction() as session:
         session['user'] = dict(
           id=user_obj.id,
-          name=user_obj.username
+          name=user_obj.name
         )
 
       # It test the restricted route.

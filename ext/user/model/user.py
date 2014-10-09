@@ -27,21 +27,21 @@ class UserModel(UserTable):
 
       @test = false
     '''
-    return UserModel.query.filter(UserModel.username==name).first()
+    return UserModel.query.filter(UserModel.name==name).first()
 
   @staticmethod
   def login(name, password):
     pass
 
   @staticmethod
-  def register(email, password, username=''):
+  def register(email, password, name=''):
     '''
       - It registers a user into the system.
     '''
     if not UserModel.is_free(email):
       raise LogicException('A such email is used.')
     user = UserModel(email, password)
-    user.username = username
+    user.name = name
     db.session.add(user)
     db.session.commit()
     return user
@@ -57,14 +57,14 @@ class UserModel(UserTable):
     return user is None
 
   @staticmethod
-  def check_auth_by_pass(username, password):
+  def check_auth_by_pass(name, password):
     '''
-      - It checks if a username password combination is valid.
+      - It checks if a name password combination is valid.
 
       @test = false
     '''
-    user = UserModel.load_by_name(username)
-    return user.username == username and user.password == password
+    user = UserModel.load_by_name(name)
+    return user.name == name and user.password == password
 
   def update_profile(self, profile=dict()):
     '''

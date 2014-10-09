@@ -5,7 +5,7 @@ class UserTable(db.Model):
   id = db.Column(db.Integer, primary_key=True)
   email = db.Column(db.String(120), unique=True)
   password = db.Column(db.String)
-  username = db.Column(db.String(80), unique=False)
+  name = db.Column(db.String(80), unique=False)
 
   budget_user_bridge = relationship('BudgetUserTable', backref='user')
   contribution_bridge = relationship('ContributionTable', backref='user')
@@ -16,4 +16,4 @@ class UserTable(db.Model):
     self.password = password
 
   def __repr__(self):
-    return '<User id=%d email=%s username=%s>' % (self.id, self.email, self.username)
+    return '<User id=%d email=%s name=%s>' % (self.id, self.email, self.name)
