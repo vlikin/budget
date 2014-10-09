@@ -4,9 +4,6 @@ from ext.user.model.user import UserModel
 
 import pdb
 
-# User object, initialized once.
-user = None
-
 def check_auth():
   '''
     - This function is called to check if a username password combination is valid.
@@ -32,7 +29,26 @@ def login(user):
     name=user.username
   )
 
+def get_current_user():
+  '''
+    - The current user is returned.
+  '''
+  if ('user' in session) and session['user']['id'] > 0:
+    return session['user']
+  else:
+    return None
+
+def logout():
+  '''
+    - It logs out the current user.
+  '''
+  if ('user' in session) and session['user']['id'] > 0:
+   del session['user']
+
 def requires_auth(f):
+  '''
+    - It restricts the access to routes.
+  '''
   @wraps(f)
   def decorated(*args, **kwargs):
     if not check_auth():

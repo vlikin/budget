@@ -6,7 +6,7 @@ from application import app
 import unittest
 
 # Core.
-from ext.core.test.lib.rest_auth import RestAuthTestCase
+#from ext.core.test.lib.rest_auth import RestAuthTestCase
 
 # User.
 #from ext.user.test.user_model import UserModelTestCase
@@ -17,7 +17,8 @@ from ext.core.test.lib.rest_auth import RestAuthTestCase
 #from ext.budget.test.tag_model import TagModelTestCase
 #from ext.budget.test.expense_model import ExpenseModelTestCase
 #from ext.budget.test.table import TableTestCase
-#from ext.user.test.rest import UserRestTestCase
+
+from ext.user.test.rest import UserRestTestCase
 
 if __name__ == '__main__':
   unittest.main()

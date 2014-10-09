@@ -30,6 +30,10 @@ class UserModel(UserTable):
     return UserModel.query.filter(UserModel.username==name).first()
 
   @staticmethod
+  def login(name, password):
+    pass
+
+  @staticmethod
   def register(email, password, username=''):
     '''
       - It registers a user into the system.
