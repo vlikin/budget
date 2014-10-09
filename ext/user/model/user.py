@@ -1,7 +1,8 @@
+from sqlalchemy import and_
+
 from app import db
 from ext.core.exception import LogicException
 from ..table.user import UserTable
-
 
 
 class UserModel(UserTable):
@@ -30,8 +31,13 @@ class UserModel(UserTable):
     return UserModel.query.filter(UserModel.name==name).first()
 
   @staticmethod
-  def login(name, password):
-    pass
+  def load_by_name_password(name, password):
+    '''
+      - It loads a user by the name and by the password.
+
+      @test = false
+    '''
+    return UserModel.query.filter(and_(UserModel.name==name, UserModel.password==password)).first()
 
   @staticmethod
   def register(email, password, name=''):
