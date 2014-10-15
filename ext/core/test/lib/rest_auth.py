@@ -2,7 +2,7 @@ import json
 
 from app import app
 from ext.shell.test.base import BaseTestCase
-from ext.core.lib.rest_auth import login, requires_auth, get_current_user, logout
+from ext.core.lib.rest_auth import login, requires_auth, get_current_user, logout, is_authenticated
 from ext.user.model.user import UserModel
 
 
@@ -26,6 +26,10 @@ class RestAuthTestCase(BaseTestCase):
 
     # It tests the auth lib.
     with app.test_request_context():
+
+      # The user is not authenticated yet.
+      assert not is_authenticated()
+
       # Default user state.
       logged_user_dict = get_current_user()
       assert None is logged_user_dict
@@ -34,6 +38,10 @@ class RestAuthTestCase(BaseTestCase):
       login(user_obj)
       logged_user_dict = get_current_user()
       assert logged_user_dict['id'] > 0 and logged_user_dict['id'] == user_obj.id
+
+      # The user is authenticated.
+      assert is_authenticated()
+
 
     # It tests the main 
     with app.test_client() as client:

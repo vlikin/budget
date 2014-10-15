@@ -9,7 +9,7 @@ import unittest
 #from ext.core.test.lib.rest_auth import RestAuthTestCase
 
 # User.
-from ext.user.test.user_model import UserModelTestCase
+#from ext.user.test.user_model import UserModelTestCase
 
 #from ext.user.test.user_model import UserModelTestCase
 

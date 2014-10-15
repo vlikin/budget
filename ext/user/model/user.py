@@ -4,6 +4,9 @@ from app import db
 from ext.core.exception import LogicException
 from ..table.user import UserTable
 
+# ?!?
+import ext.budget.table
+
 
 class UserModel(UserTable):
 

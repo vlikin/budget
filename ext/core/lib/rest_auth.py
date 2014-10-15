@@ -38,6 +38,12 @@ def get_current_user():
   else:
     return None
 
+def is_authenticated():
+  '''
+    - Checks if a current user is authenticated.
+  '''
+  return ('user' in session) and session['user']['id'] > 0
+
 def logout():
   '''
     - It logs out the current user.
