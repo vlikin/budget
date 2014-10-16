@@ -1,8 +1,17 @@
-<form ng-submit="login(credentials)" novalidate>
-  <label for="username">Username:</label>
-  log - {{credentials.username}}
-  <input type="text" id="username" ng-model="credentials.username" value="{{ credentials.username }}">
-  <label for="password">Password:</label>
-  <input type="password" id="password"ng-model="credentials.password">
-  <button type="submit">Login</button>
+<form ng-submit="login(credentials)" novalidate role="form">
+  <div class="alert alert-{{ message.type }}" ng-show="message.type">
+    Message - {{ message.text }}
+  </div>
+  <div class="form-group">
+    <label for="name">name:</label>
+    log - {{credentials.name}}
+    <input type="text" id="name" class="form-control" ng-model="credentials.name" value="{{ ms }}">
+  </div>
+  <div class="form-group">
+    <label for="password">Password:</label>
+    <input type="password" id="password"  class="form-control" ng-model="credentials.password">
+  </div>
+  <div class="form-group">
+    <button class="btn btn-default" type="submit">Login</button>
+  </div>
 </form>

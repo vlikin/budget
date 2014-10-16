@@ -6,11 +6,24 @@ angular.module('appModule')
     username: 'login',
     password: 'password'
   };
-  
+
+  $scope.message = {
+    text:'',
+    type:''
+  };
+
   $scope.login = function (credentials) {
-    AuthService.login(credentials).then(function (user) {
+    AuthService.login(credentials).then(function (data) {
       $rootScope.$broadcast(AUTH_EVENTS.loginSuccess);
-      $scope.setCurrentUser(user);
+      if (data.success) {
+        $scope.message.type = 'success';
+      }
+      else {
+        $scope.message.type = 'warning';
+      }
+      $scope.message.text = data.message;
+      console.log($scope.message);
+      //$scope.setCurrentUser(user);
     }, function () {
       $rootScope.$broadcast(AUTH_EVENTS.loginFailed);
     });

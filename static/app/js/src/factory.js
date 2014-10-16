@@ -7,13 +7,12 @@ var app = angular.module('appModule')
     return $http
       .post('/user/rest/login', credentials)
       .then(function (res) {
-        console.log(res.data);
         if (res.data.success) {
           Session.create(res.data.id, res.data.user.id, USER_ROLES.admin);
-          return res.data.user;
+          return res.data;
         }
 
-        return false;
+        return res.data;
       });
   };
  

@@ -1,3 +1,5 @@
+import json
+
 from flask import jsonify, request
 from app import app
 from ext.core.lib.rest_auth import login, requires_auth, get_current_user, logout, is_authenticated
@@ -11,8 +13,11 @@ def login_route():
       message='You have been authenticated before.'
     ))
 
-  name = request.form.get('name')
-  password = request.form.get('password')
+  #name = request.form.get('name')
+  #password = request.form.get('password')
+  user_dict = json.loads(request.data)
+  name = user_dict['name']
+  password = user_dict['password']
   user = UserModel.load_by_name_password(name, password)
   if user:
     login(user)
@@ -27,7 +32,7 @@ def login_route():
   else:
     return jsonify(dict(
       success=False,
-      message='Wrong authentication data.'
+      message='Wrong authentication data. %s - %s' % (name, password)
     ))
 
 @app.route('/user/rest/logout', methods=['GET'])
