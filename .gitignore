@@ -4,3 +4,4 @@
 *.sass-cache*
 db.sqlite
 test.sqlite
+static/app/js/node_modules*
