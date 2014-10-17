@@ -19,4 +19,19 @@ var app = angular.module('appModule')
         redirectTo: '/phones'
       });
   }
-]);
+])
+// http://stackoverflow.com/questions/20969835/angularjs-login-and-authentication-in-each-route-and-controller
+.run(function ($rootScope, $location, AuthService) {
+    $rootScope.$on('$routeChangeStart', function (event) {
+
+        if (!AuthService.isAuthenticated()) {
+            console.log('DENY');
+            event.preventDefault();
+            $location.path('#/login');
+        }
+        else {
+            console.log('ALLOW');
+            $location.path('#/home');
+        }
+    });
+});

@@ -1,11 +1,11 @@
 <form ng-submit="login(credentials)" novalidate role="form">
   <div class="alert alert-{{ message.type }}" ng-show="message.type">
-    Message - {{ message.text }}
+    {{ message.text }}
   </div>
   <div class="form-group">
     <label for="name">name:</label>
     log - {{credentials.name}}
-    <input type="text" id="name" class="form-control" ng-model="credentials.name" value="{{ ms }}">
+    <input type="text" id="name" class="form-control" ng-model="credentials.name" value="">
   </div>
   <div class="form-group">
     <label for="password">Password:</label>

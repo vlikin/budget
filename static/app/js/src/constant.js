@@ -12,4 +12,9 @@ var app = angular.module('appModule')
   admin: 'admin',
   editor: 'editor',
   guest: 'guest'
+})
+.constant('SETTINGS', {
+  user: {
+    success_authentication_redirection: '#/'
+  }
 });

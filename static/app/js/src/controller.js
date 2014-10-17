@@ -1,12 +1,10 @@
 angular.module('appModule')
 
-.controller('User-loginController', ['$scope', '$rootScope', 'AUTH_EVENTS', 'AuthService', function ($scope, $rootScope, AUTH_EVENTS, AuthService) {
-  console.log('init');
+.controller('User-loginController', function ($scope, $rootScope, $location, AUTH_EVENTS, AuthService) {
   $scope.credentials = {
     username: 'login',
     password: 'password'
   };
-
   $scope.message = {
     text:'',
     type:''
@@ -16,7 +14,7 @@ angular.module('appModule')
     AuthService.login(credentials).then(function (data) {
       $rootScope.$broadcast(AUTH_EVENTS.loginSuccess);
       if (data.success) {
-        $scope.message.type = 'success';
+        $location.path(SETTINGS.user.success_authentication_redirection);
       }
       else {
         $scope.message.type = 'warning';
@@ -28,7 +26,7 @@ angular.module('appModule')
       $rootScope.$broadcast(AUTH_EVENTS.loginFailed);
     });
   };
-}])
+})
 
 .controller('Phone-ListCtrl', ['$scope', '$http',
   function ($scope, $http) {
