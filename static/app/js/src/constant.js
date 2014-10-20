@@ -15,6 +15,6 @@ var app = angular.module('appModule')
 })
 .constant('SETTINGS', {
   user: {
-    success_authentication_redirection: '#/'
+    success_authentication_redirection: '/'
   }
 });

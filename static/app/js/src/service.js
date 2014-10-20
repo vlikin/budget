@@ -12,4 +12,14 @@ angular.module('appModule')
     this.userRole = null;
   };
   return this;
+})
+
+.service('Lib', function (MessageService) {
+  this.ShowMessage = function(message, type, important) {
+    type = type | 'info';
+    important = important | true;
+    MessageService.broadcast(message, {color: type, important: important, classes: 'alert alert-error'});
+  };
+
+  return this;
 });

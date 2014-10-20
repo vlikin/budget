@@ -1,27 +1,22 @@
 angular.module('appModule')
 
-.controller('User-loginController', function ($scope, $rootScope, $location, AUTH_EVENTS, AuthService) {
+.controller('User-loginController', function ($scope, $rootScope, $location, AUTH_EVENTS, AuthService, Lib) {
   $scope.credentials = {
     username: 'login',
     password: 'password'
-  };
-  $scope.message = {
-    text:'',
-    type:''
   };
 
   $scope.login = function (credentials) {
     AuthService.login(credentials).then(function (data) {
       $rootScope.$broadcast(AUTH_EVENTS.loginSuccess);
       if (data.success) {
+        $rootScope.$broadcast(AUTH_EVENTS.loginSuccess);
         $location.path(SETTINGS.user.success_authentication_redirection);
+        Lib.ShowMessage(data.message, 'success');
       }
       else {
-        $scope.message.type = 'warning';
+        Lib.ShowMessage(data.message, 'warning');
       }
-      $scope.message.text = data.message;
-      console.log($scope.message);
-      //$scope.setCurrentUser(user);
     }, function () {
       $rootScope.$broadcast(AUTH_EVENTS.loginFailed);
     });
