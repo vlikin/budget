@@ -3,6 +3,8 @@
 '''
 from app import app
 
+import ext.core.hook
+
 # Routes.
 import ext.shell.route
 

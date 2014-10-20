@@ -19,6 +19,7 @@ def login_route():
   name = user_dict['name']
   password = user_dict['password']
   user = UserModel.load_by_name_password(name, password)
+
   if user:
     login(user)
     return jsonify(dict(
