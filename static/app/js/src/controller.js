@@ -2,8 +2,8 @@ angular.module('appModule')
 
 .controller('User-loginController', function ($scope, $rootScope, $location, AUTH_EVENTS, AuthService, Lib) {
   $scope.credentials = {
-    username: 'login',
-    password: 'password'
+    username: 'user 1',
+    password: 'user 1'
   };
 
   $scope.login = function (credentials) {
@@ -36,7 +36,6 @@ angular.module('appModule')
   $scope.$watch(AuthService.isAuthenticated, function(newVal, oldVal){
     $scope.isAuthenticated = newVal;
   });
-  $scope.hi = 'Hello!';
 })
 .controller('Phone-DetailCtrl', ['$scope', '$routeParams',
   function($scope, $routeParams) {
