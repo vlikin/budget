@@ -32,6 +32,12 @@ angular.module('appModule')
     $scope.orderProp = 'age';
   }])
 
+.controller('defaultMenuController', function ($scope, AuthService) {
+  $scope.$watch(AuthService.isAuthenticated, function(newVal, oldVal){
+    $scope.isAuthenticated = newVal;
+  });
+  $scope.hi = 'Hello!';
+})
 .controller('Phone-DetailCtrl', ['$scope', '$routeParams',
   function($scope, $routeParams) {
     $scope.phoneId = $routeParams.phoneId;
