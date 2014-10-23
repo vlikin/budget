@@ -43,6 +43,15 @@ class UserModel(UserTable):
     return UserModel.query.filter(and_(UserModel.name==name, UserModel.password==password)).first()
 
   @staticmethod
+  def load_by_email(email):
+    '''
+      - It loads a user by the email.
+
+      @test = false
+    '''
+    return UserModel.query.filter(UserModel.email==email).first()
+
+  @staticmethod
   def register(email, password, name=''):
     '''
       - It registers a user into the system.

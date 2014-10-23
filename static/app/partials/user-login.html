@@ -1,4 +1,4 @@
-<form ng-submit="login(credentials)" novalidate role="form">
+<form ng-submit="login(credentials)" novalidate name="form">
   <div class="alert alert-{{ message.type }}" ng-show="message.type">
     {{ message.text }}
   </div>
@@ -12,6 +12,6 @@
     <input type="password" id="password"  class="form-control" ng-model="credentials.password">
   </div>
   <div class="form-group">
-    <button class="btn btn-default" type="submit">Login</button>
+    <button class="btn btn-primary" type="submit">Login</button>
   </div>
 </form>

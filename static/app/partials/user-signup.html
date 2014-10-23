@@ -1,18 +1,27 @@
-
-<form ng-submit="login(credentials)" novalidate role="form">
+<form novalidate name="form">
   <div class="alert alert-{{ message.type }}" ng-show="message.type">
     {{ message.text }}
   </div>
-  <div class="form-group">
-    <label for="name">name:</label>
-    log - {{credentials.name}}
-    <input type="text" id="name" class="form-control" ng-model="credentials.name" value="">
+  <div class="form-group" ng-class="{'has-error': form.name.$invalid}">
+    <label for="name" class="control-label">Name:</label>
+    <input type="text" name="name" class="form-control" ng-model="profile.name" value="">
+  </div>
+  <div class="form-group" ng-class="{'has-error': form.name.$invalid}">
+    <label for="email">Email:</label>
+    <input type="text" name="email" class="form-control" ng-model="profile.email" value="" email-validator>
+    <div ng-show="form.email.$pending.email">Checking if this name is available ...</div>
+    <div ng-show="form.email.$error.email">This username is already taken!</div>
+  </div>
+  <div class="form-group" ng-class="{'has-error': form.name.$invalid}">
+    <label for="type">Password:</label>
+    <input type="password" id="name"  class="form-control" ng-model="profile.password" placeholder='password' required>
+  </div>
+  <div class="form-group" ng-class="{'has-error': form.name.$invalid}">
+    <label for="password">Confirm password:</label>
+    <input type="password" id="password_verify" placeholder='confirm password' class="form-control" ng-model="profile.password_verify" required password-verify="profile.password">
   </div>
   <div class="form-group">
-    <label for="password">Password:</label>
-    <input type="password" id="password"  class="form-control" ng-model="credentials.password">
-  </div>
-  <div class="form-group">
-    <button class="btn btn-default" type="submit">Login</button>
+    <button class="btn btn-default" ng-click="reset()">Reset</button>
+    <button class="btn btn-primary" ng-click="register()">Register</button>
   </div>
 </form>

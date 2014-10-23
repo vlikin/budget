@@ -42,6 +42,14 @@ def logout_route():
   logout()
   return jsonify({'success': True})
 
+@app.route('/user/rest/email_exists', methods=['GET'])
+def email_exists_route():
+  '''
+    - Email exists.
+    @test = false
+  '''
+  return jsonify({'success': True})
+
 @app.route('/user/rest/current', methods=['GET'])
 @requires_auth
 def current_route():

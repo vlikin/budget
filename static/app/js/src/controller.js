@@ -24,6 +24,13 @@ angular.module('appModule')
 })
 
 .controller('User-SignupController', function ($scope, $rootScope, $location, AUTH_EVENTS, AuthService, Lib) {
+  $scope.profile = {};
+
+  $scope.reset = function() {
+    $scope.profile = {};
+  };
+  $scope.register = function() {
+  };
 })
 
 .controller('Phone-ListCtrl', ['$scope', '$http',
