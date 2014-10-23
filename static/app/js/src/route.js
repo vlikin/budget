@@ -8,6 +8,11 @@ var app = angular.module('appModule')
         controller: 'User-loginController',
         requires_anonym: true
       }).
+      when('/user/signup', {
+        templateUrl: '/static/app/partials/user-signup.html',
+        controller: 'User-SignupController',
+        requires_anonym: true
+      }).
       when('/phones', {
         templateUrl: '/static/app/partials/phone-list.html',
         controller: 'Phone-ListCtrl',
@@ -34,7 +39,7 @@ var app = angular.module('appModule')
     }
 
     // It requires anonym.
-    if ('requires_anonym' in currRoute && currRoute.requires_auth && AuthService.isAuthenticated()) {
+    if ('requires_anonym' in currRoute && currRoute.requires_anonym && AuthService.isAuthenticated()) {
       event.preventDefault();
       $location.path('/');
     }

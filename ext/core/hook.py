@@ -6,4 +6,5 @@ def before_request_hook():
     ''' 
       - .
     '''
-    time.sleep(.5)
+    #time.sleep(.5)
+    pass

@@ -1,6 +1,6 @@
 angular.module('appModule')
 
-.controller('User-loginController', function ($scope, $rootScope, $location, AUTH_EVENTS, AuthService, Lib) {
+.controller('User-loginController', function ($scope, $rootScope, $location, AUTH_EVENTS, AuthService, Lib, SETTINGS) {
   $scope.credentials = {
     username: 'user 1',
     password: 'user 1'
@@ -23,6 +23,9 @@ angular.module('appModule')
   };
 })
 
+.controller('User-SignupController', function ($scope, $rootScope, $location, AUTH_EVENTS, AuthService, Lib) {
+})
+
 .controller('Phone-ListCtrl', ['$scope', '$http',
   function ($scope, $http) {
     $http.get('/static/app/phones/phones.json').success(function(data) {
@@ -32,11 +35,14 @@ angular.module('appModule')
     $scope.orderProp = 'age';
   }])
 
-.controller('defaultMenuController', function ($scope, AuthService) {
-  $scope.$watch(AuthService.isAuthenticated, function(newVal, oldVal){
-    $scope.isAuthenticated = newVal;
-  });
+.controller('defaultMenuController', function ($scope, AuthService, Session) {
+  $scope.session = Session;
+  
+  $scope.logout = function() {
+    AuthService.logout();
+  };
 })
+
 .controller('Phone-DetailCtrl', ['$scope', '$routeParams',
   function($scope, $routeParams) {
     $scope.phoneId = $routeParams.phoneId;
