@@ -5,14 +5,16 @@ angular.module('appModule')
     this.id = sessionId;
     this.userId = userId;
     this.userRole = userRole;
-    this.isAuthenticated = !!sessionId;
+    this.isAuthenticated = !!userId;
   };
+
   this.destroy = function () {
     this.id = null;
     this.userId = null;
     this.userRole = null;
-    this.isAuthenticated = null;
+    this.isAuthenticated = false;
   };
+
   return this;
 })
 

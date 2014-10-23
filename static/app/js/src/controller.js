@@ -35,11 +35,12 @@ angular.module('appModule')
     $scope.orderProp = 'age';
   }])
 
-.controller('defaultMenuController', function ($scope, AuthService, Session) {
+.controller('defaultMenuController', function ($scope, $location, AuthService, Session) {
   $scope.session = Session;
   
   $scope.logout = function() {
     AuthService.logout();
+    //$location.path('/');
   };
 })
 

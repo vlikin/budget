@@ -2,7 +2,7 @@ var app = angular.module('appModule')
 
 .factory('AuthService', function ($http, Session, USER_ROLES) {
   var authService = {};
- 
+
   authService.get_current_user = function() {
     $http
       .get('/user/rest/current')
