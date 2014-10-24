@@ -1,3 +1,5 @@
+import json
+
 from app import app, db
 from unittest import TestCase
 from ext.shell.lib import init_test_db, rebuild_db, drop_all
@@ -21,6 +23,9 @@ class BaseTestCase(TestCase):
     '''
     db.session.close()
     drop_all()
+
+  def post_json(self, url, data):
+    return self.client.post(url, data=json.dumps(data), content_type='application/json')
 
   def login(self, name, password):
     '''

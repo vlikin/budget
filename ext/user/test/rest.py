@@ -18,17 +18,22 @@ class UserRestTestCase(BaseTestCase):
     self.test_user = UserModel.register(user_dict['email'], user_dict['password'], user_dict['name'])
 
     # User log in failure.
-    response = self.client.post('/user/rest/login', data=dict(name='name', passsword='password'))
+    response = self.post_json('/user/rest/login', data=dict(name='name', password='password'))
     response_user_dict=json.loads(response.data)
     assert response_user_dict['success'] == False and response_user_dict['message'] == 'Wrong authentication data.'
 
     # Logs in a user.
-    response = self.client.post('/user/rest/login', data=user_dict)
+    response = self.post_json('/user/rest/login', data=user_dict)
     response_user_dict=json.loads(response.data)
     assert response_user_dict['success'] == True and response_user_dict['user']['name'] == user_dict['name']
 
+    # Email exists.
+    response = self.post_json('/user/rest/login', data=dict(email=user_dict['email']))
+    print response.data
+    return
+
     # Failure - a user has been alredy authenticated.
-    response = self.client.post('/user/rest/login', data=user_dict)
+    response = self.post_json('/user/rest/login', data=user_dict)
     response_user_dict=json.loads(response.data)
     assert response_user_dict['success'] == False and response_user_dict['message'] == 'You have been authenticated before.'
 

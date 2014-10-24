@@ -13,8 +13,6 @@ def login_route():
       message='You have been authenticated before.'
     ))
 
-  #name = request.form.get('name')
-  #password = request.form.get('password')
   user_dict = json.loads(request.data)
   name = user_dict['name']
   password = user_dict['password']
@@ -33,7 +31,7 @@ def login_route():
   else:
     return jsonify(dict(
       success=False,
-      message='Wrong authentication data. %s - %s' % (name, password)
+      message='Wrong authentication data.'
     ))
 
 @app.route('/user/rest/logout', methods=['GET'])
@@ -48,7 +46,9 @@ def email_exists_route():
     - Email exists.
     @test = false
   '''
-  return jsonify({'success': True})
+  exists = False
+  data_dict = json.loads(request.data)
+  return jsonify({'success': exists})
 
 @app.route('/user/rest/current', methods=['GET'])
 @requires_auth

@@ -1,24 +1,26 @@
 <form novalidate name="form">
-  <div class="alert alert-{{ message.type }}" ng-show="message.type">
-    {{ message.text }}
-  </div>
-  <div class="form-group" ng-class="{'has-error': form.name.$invalid}">
+  <div class="form-group" ng-class="{'has-error': form.name.$invalid && form.name.$dirty }">
     <label for="name" class="control-label">Name:</label>
-    <input type="text" name="name" class="form-control" ng-model="profile.name" value="">
+    <input type="text" name="name" class="form-control" ng-model="profile.name" required>
   </div>
-  <div class="form-group" ng-class="{'has-error': form.name.$invalid}">
-    <label for="email">Email:</label>
-    <input type="text" name="email" class="form-control" ng-model="profile.email" value="" email-validator>
+  <div class="form-group" ng-class="{'has-error': form.email.$invalid && form.email.$dirty }">
+    <label for="email" class="control-label">Email:</label>
+    <input type="email" name="email" class="form-control" ng-model="profile.email"  email-validator required/>
+    <div class="tooltip top" role="tooltip">
+      <div class="tooltip-arrow"></div>
+      <div class="tooltip-inner">Some tooltip text!</div>
+    </div>
     <div ng-show="form.email.$pending.email">Checking if this name is available ...</div>
     <div ng-show="form.email.$error.email">This username is already taken!</div>
+    <div ng-show="form.email.$error.required && form.$dirty ">Required.</div>
   </div>
-  <div class="form-group" ng-class="{'has-error': form.name.$invalid}">
-    <label for="type">Password:</label>
-    <input type="password" id="name"  class="form-control" ng-model="profile.password" placeholder='password' required>
+  <div class="form-group" ng-class="{'has-error': form.password.$invalid && form.password.$dirty }">
+    <label for="type" class="control-label">Password:</label>
+    <input type="password" name="password" class="form-control" ng-model="profile.password" placeholder='password' required>
   </div>
-  <div class="form-group" ng-class="{'has-error': form.name.$invalid}">
-    <label for="password">Confirm password:</label>
-    <input type="password" id="password_verify" placeholder='confirm password' class="form-control" ng-model="profile.password_verify" required password-verify="profile.password">
+  <div class="form-group" ng-class="{'has-error': form.password_verify.$invalid && form.password_verify.$dirty }">
+    <label for="password" class="control-label">Confirm password:</label>
+    <input type="password" name="password_verify" placeholder='confirm password' class="form-control" ng-model="profile.password_verify" required password-verify="profile.password">
   </div>
   <div class="form-group">
     <button class="btn btn-default" ng-click="reset()">Reset</button>
