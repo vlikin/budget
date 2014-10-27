@@ -34,9 +34,9 @@ class UserModelTestCase(BaseTestCase):
     another_user_object = UserModel.load_by_email(self.test_user.email)
     assert another_user_object.email == self.test_user.email
 
-    # It loads a user by the name and the password.
-    another_user_object = UserModel.load_by_name_password(self.test_user_data['name'], self.test_user_data['password'])
-    assert another_user_object.email == self.test_user.email
+    # It checks a user by the name and the password.
+    assert False == UserModel.check_auth_by_pass(self.test_user_data['email'], 'wrong')
+    assert True == UserModel.check_auth_by_pass(self.test_user_data['email'], self.test_user_data['password'])
 
     # It updates a user profile.
     self.test_user.update_profile(dict(email='changed_%s' % self.test_user_data['email']))

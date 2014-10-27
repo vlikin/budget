@@ -1,3 +1,4 @@
+import re
 from sqlalchemy import and_
 
 from app import db
@@ -25,29 +26,9 @@ class UserModel(UserTable):
     return UserModel.query.filter(UserModel.id==user_id).first()
 
   @staticmethod
-  def load_by_name(name):
-    '''
-      - It loads a user by his name.
-
-      @test = false
-    '''
-    return UserModel.query.filter(UserModel.name==name).first()
-
-  @staticmethod
-  def load_by_name_password(name, password):
-    '''
-      - It loads a user by the name and by the password.
-
-      @test = false
-    '''
-    return UserModel.query.filter(and_(UserModel.name==name, UserModel.password==password)).first()
-
-  @staticmethod
   def load_by_email(email):
     '''
       - It loads a user by the email.
-
-      @test = false
     '''
     return UserModel.query.filter(UserModel.email==email).first()
 
@@ -56,12 +37,17 @@ class UserModel(UserTable):
     '''
       - It registers a user into the system.
     '''
+    if password.strip() == '':
+      raise LogicException('The password is empty.')
+    if not re.match('^[a-zA-Z0-9._]+\@[a-zA-Z0-9._]+\.[a-zA-Z]{2,3}$', email):
+      raise LogicException('Wrong email format.')
     if not UserModel.is_free(email):
       raise LogicException('A such email is used.')
     user = UserModel(email, password)
     user.name = name
     db.session.add(user)
     db.session.commit()
+
     return user
 
   @staticmethod
@@ -75,14 +61,12 @@ class UserModel(UserTable):
     return user is None
 
   @staticmethod
-  def check_auth_by_pass(name, password):
+  def check_auth_by_pass(email, password):
     '''
-      - It checks if a name password combination is valid.
-
-      @test = false
+      - It checks if a combination(email, password) is valid.
     '''
-    user = UserModel.load_by_name(name)
-    return user.name == name and user.password == password
+    user = UserModel.load_by_email(email)
+    return (user != None) and (user.email == email) and (user.password == password)
 
   def update_profile(self, profile=dict()):
     '''

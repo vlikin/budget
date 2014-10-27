@@ -2,7 +2,7 @@ import json
 
 from app import app
 from ext.shell.test.base import BaseTestCase
-from ext.core.lib.rest_auth import login, requires_auth, get_current_user, logout, is_authenticated
+from ext.core.lib.rest_auth import login, requires_auth, requires_anonym, get_current_user, logout, is_authenticated
 from ext.user.model.user import UserModel
 
 
@@ -19,9 +19,14 @@ class RestAuthTestCase(BaseTestCase):
     )
     user_obj = UserModel.register(user_dict['email'], user_dict['password'], user_dict['name'])
 
-    @app.route('/test_route/')
+    @app.route('/test_auth_route/')
     @requires_auth
-    def route():
+    def requires_auth_route():
+      return 'text'
+
+    @app.route('/test_anonym_route/')
+    @requires_anonym
+    def requires_anonym_route():
       return 'text'
 
     # It tests the auth lib.
@@ -46,8 +51,12 @@ class RestAuthTestCase(BaseTestCase):
     # It tests the main 
     with app.test_client() as client:
       # The stricted page. It is forbidden.
-      response = client.get('/test_route/')
+      response = client.get('/test_auth_route/')
       assert response.status_code == 401
+
+      # Anonymous only. It is allowed.
+      response = client.get('/test_anonym_route/')
+      assert response.status_code == 200
 
       # It makes an user authenticated.
       with client.session_transaction() as session:
@@ -57,5 +66,9 @@ class RestAuthTestCase(BaseTestCase):
         )
 
       # It test the restricted route.
-      response = client.get('/test_route/')
+      response = client.get('/test_auth_route/')
       assert response.status_code == 200
+
+      # Anonymous only. It is forbidden.
+      response = client.get('/test_anonym_route/')
+      assert response.status_code == 401

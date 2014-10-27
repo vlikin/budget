@@ -1,11 +1,7 @@
 <form ng-submit="login(credentials)" novalidate name="form">
-  <div class="alert alert-{{ message.type }}" ng-show="message.type">
-    {{ message.text }}
-  </div>
   <div class="form-group">
-    <label for="name">name:</label>
-    log - {{credentials.name}}
-    <input type="text" id="name" class="form-control" ng-model="credentials.name" value="">
+    <label for="email">Email:</label>
+    <input type="text" id="email" class="form-control" ng-model="credentials.email" value="">
   </div>
   <div class="form-group">
     <label for="password">Password:</label>

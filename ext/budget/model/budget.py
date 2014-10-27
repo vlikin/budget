@@ -4,8 +4,6 @@ from sqlalchemy import and_
 from ..table.budget import BudgetTable
 from ..table.budget_user import BudgetUserTable
 from ..table.contribution import ContributionTable
-from ..table.expense import ExpenseTable
-from ..table.expense_tag import ExpenseTagTable
 
 from ext.core.exception import LogicException
 
@@ -79,12 +77,10 @@ class BudgetModel(BudgetTable):
     '''
       - The contribution is loaded.
     '''
-    # @todo security. Load only contributions of the budget.
-    return ContributionTable.query.filter(ContributionTable.id==id).first()
+    return ContributionTable.query.filter(and_(ContributionTable.budget_id==self.id, ContributionTable.id==id)).first()
 
   def remove_contribution_by_id(self, id):
     '''
       - The contribution is removed from the budget by id.
     '''
-    # @todo security. Load only contributions of the budget.
-    ContributionTable.query.filter(ContributionTable.id==id).delete()
+    ContributionTable.query.filter(and_(ContributionTable.budget_id==self.id, ContributionTable.id==id)).delete()

@@ -10,16 +10,6 @@ def check_auth():
   '''
   return ('user' in session) and session['user']['id'] > 0
 
-def return_login_required():
-  '''
-    - Sends a 401 response that enables basic auth
-  '''
-  return Response(
-    'Could not verify your access level for that URL.\n'
-    'You have to login with proper credentials', 401,
-    {'WWW-Authenticate': 'Basic realm="Login Required"'}
-  )
-
 def login(user):
   '''
     - It logs in a user to the session.
@@ -58,6 +48,25 @@ def requires_auth(f):
   @wraps(f)
   def decorated(*args, **kwargs):
     if not check_auth():
-      return return_login_required()
+      return Response(
+        'Could not verify your access level for that URL.\nYou have to login with proper credentials',
+        401,
+        {'WWW-Authenticate': 'Basic realm="Login Required"'}
+      )
+    return f(*args, **kwargs)
+  return decorated
+
+def requires_anonym(f):
+  '''
+    - It restricts the access to routes.
+  '''
+  @wraps(f)
+  def decorated(*args, **kwargs):
+    if is_authenticated():
+      return Response(
+        'You\'ve alredy logged to the system.\nLog out from the system.',
+        401,
+        {'WWW-Authenticate': 'Basic realm="Anonym Required"'}
+      )
     return f(*args, **kwargs)
   return decorated

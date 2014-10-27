@@ -2,11 +2,15 @@ angular.module('appModule')
 
 .controller('User-loginController', function ($scope, $rootScope, $location, AUTH_EVENTS, AuthService, Lib, SETTINGS) {
   $scope.credentials = {
-    username: 'user 1',
+    email: 'user 1@example.com',
     password: 'user 1'
   };
 
   $scope.login = function (credentials) {
+    if (!credentials.email || !credentials.password) {
+      Lib.ShowMessage('Fill credentials :)', 'warning');
+      return;
+    }
     AuthService.login(credentials).then(function (data) {
       $rootScope.$broadcast(AUTH_EVENTS.loginSuccess);
       if (data.success) {
@@ -23,13 +27,23 @@ angular.module('appModule')
   };
 })
 
-.controller('User-SignupController', function ($scope, $rootScope, $location, AUTH_EVENTS, AuthService, Lib) {
+.controller('User-SignupController', function ($scope, $location, $http, AuthService, Lib) {
   $scope.profile = {};
 
   $scope.reset = function() {
     $scope.profile = {};
   };
-  $scope.register = function() {
+  $scope.register = function(profile) {
+      return $http
+      .post('/user/rest/register', profile)
+      .then(function (res) {
+        if (res.data.success) {
+          Session.create(res.data.id, res.data.user.id, USER_ROLES.admin);
+          return res.data;
+        }
+
+        return res.data;
+      });
   };
 })
 
@@ -47,7 +61,7 @@ angular.module('appModule')
   
   $scope.logout = function() {
     AuthService.logout();
-    //$location.path('/');
+    $location.path('/');
   };
 })
 
