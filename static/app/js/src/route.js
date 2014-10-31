@@ -13,6 +13,16 @@ var app = angular.module('appModule')
         controller: 'User-SignupController',
         requires_anonym: true
       }).
+      when('/user/profile/view', {
+        templateUrl: '/static/app/partials/user-profile-view.html',
+        controller: 'User-ProfileViewController',
+        requires_auth: true
+      }).
+      when('/user/profile/edit', {
+        templateUrl: '/static/app/partials/user-profile-edit.html',
+        controller: 'User-ProfileEditController',
+        requires_auth: true
+      }).
       when('/phones', {
         templateUrl: '/static/app/partials/phone-list.html',
         controller: 'Phone-ListCtrl',

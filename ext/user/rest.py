@@ -7,6 +7,19 @@ from ext.core.lib.rest_auth import login, requires_auth, requires_anonym, get_cu
 from .model.user import UserModel
 
 
+@app.route('/user/profile/get', methods=['POST'])
+@requires_auth
+def get_profile_route():
+  '''
+    - It returns the profile of the current user.
+  '''
+  user = get_current_user();
+  return jsonify(dict(
+    id=user.id,
+    email=user.email,
+    name=user.name
+  ))
+
 @app.route('/user/rest/login', methods=['POST'])
 @requires_anonym
 def login_route():

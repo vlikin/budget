@@ -27,6 +27,12 @@ angular.module('appModule')
   };
 })
 
+.controller('User-ProfileViewController', function () {
+})
+
+.controller('User-ProfileEditController', function () {
+})
+
 .controller('User-SignupController', function ($scope, $location, $http, AuthService, Lib) {
   $scope.profile = {};
 
@@ -38,8 +44,8 @@ angular.module('appModule')
       .post('/user/rest/register', profile)
       .then(function (res) {
         if (res.data.success) {
-          Session.create(res.data.id, res.data.user.id, USER_ROLES.admin);
-          return res.data;
+          $location.path('/user/login');
+          Lib.ShowMessage('You have been registered into the system successfully.', 'success');
         }
 
         return res.data;
