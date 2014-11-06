@@ -15,5 +15,8 @@ script_manager = ScriptManager(app)
 # REST.
 import ext.user.rest
 
+# Hooks.
+import ext.core.hook
+
 if __name__ == '__main__':
   app.run(debug=True)

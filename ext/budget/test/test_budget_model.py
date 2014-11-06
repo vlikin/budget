@@ -14,7 +14,7 @@ class BudgetModelTestCase(BaseTestCase):
 
   def test_budget(self):
     # Creates a test user.
-    name = 'user 1'
+    name = 'user_1'
     user = UserModel.register('%s@example.com' % name, name, name)
 
     # Creates a budget, attaches an owner.
@@ -28,7 +28,7 @@ class BudgetModelTestCase(BaseTestCase):
     assert another_budget_object.id == budget_id
 
     # Attaches another user to the budget.
-    name = 'user 2'
+    name = 'user_2'
     another_user = UserModel.register('%s@example.com' % name, name, name)
     budget_user = budget.attach_user(another_user.id, 'watcher')
     assert budget_user.user_id == another_user.id and budget_user.budget_id == budget.id
