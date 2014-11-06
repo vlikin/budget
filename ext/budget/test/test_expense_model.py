@@ -12,7 +12,7 @@ class ExpenseModelTestCase(BaseTestCase):
 
   def test_budget(self):
     # Creates a test user.
-    name = 'user 1'
+    name = 'user_1'
     user = UserModel.register('%s@example.com' % name, name, name)
     
     # Creates a budget, attaches an owner.

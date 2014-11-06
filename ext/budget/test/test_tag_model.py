@@ -20,7 +20,7 @@ class TagModelTestCase(BaseTestCase):
 
   def test_budget(self):
     # Creates a test user.
-    name = 'user 1'
+    name = 'user_1'
     self.test_user = UserModel.register('%s@example.com' % name, name, name)
 
     self.test_budget = BudgetModel.create(self.test_budget_data['title'], self.test_user.id)
