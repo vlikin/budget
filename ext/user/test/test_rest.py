@@ -43,15 +43,28 @@ class UserRestTestCase(BaseTestCase):
     response_user_dict=json.loads(response.data)
     assert response_user_dict['success'] == False
 
-    # Failure - a user has been alredy authenticated.
+    # Failure - a user has been alredy authenticated. It can be used only by anonymouse users.
     response = self.post_json('/user/rest/login', data=user_dict)
-    response_user_dict=json.loads(response.data)
-    assert response_user_dict['success'] == False and response_user_dict['message'] == 'You have been authenticated before.'
+    assert response.status_code == 401
 
     # The current user is returned.
     response = self.client.get('/user/rest/current')
     response_user_dict=json.loads(response.data)
     assert response_user_dict['name'] == user_dict['name'] and response.status_code == 200
+
+    # The user profile is returned.
+    response = self.client.get('/user/profile/get')
+    response_profile_dict=json.loads(response.data)
+    assert response_profile_dict['name'] == user_dict['name'] and response_profile_dict['email'] == user_dict['email'] and response.status_code == 200
+
+    # The user profile is returned.
+    response_profile_dict['name'] = '%s - changed' % response_profile_dict['name']
+    print response_profile_dict
+    response = self.post_json('/user/profile/update', data=response_profile_dict)
+    print response
+    return
+    response_dict=json.loads(response.data)
+    assert response_dict['success'] and response.status_code == 200
 
     # Logout.
     response = self.client.get('/user/rest/logout')

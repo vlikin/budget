@@ -2,8 +2,8 @@ angular.module('appModule')
 
 .controller('User-loginController', function ($scope, $rootScope, $location, AUTH_EVENTS, AuthService, Lib, SETTINGS) {
   $scope.credentials = {
-    email: 'user 1@example.com',
-    password: 'user 1'
+    email: 'user_1@example.com',
+    password: 'user_1'
   };
 
   $scope.login = function (credentials) {
@@ -27,10 +27,24 @@ angular.module('appModule')
   };
 })
 
-.controller('User-ProfileViewController', function () {
+.controller('User-ProfileViewController', function ($scope, $http) {
+  $scope.profile = {};
+  $http
+    .get('/user/profile/get')
+    .then(function (res) {
+      $scope.profile = res.data;
+    });
 })
 
-.controller('User-ProfileEditController', function () {
+.controller('User-ProfileEditController', function ($scope, $http) {
+  $scope.profile = {};
+  $http
+    .get('/user/profile/get')
+    .then(function (res) {
+
+      $scope.profile = res.data;
+      console.log($scope.profile);
+    });
 })
 
 .controller('User-SignupController', function ($scope, $location, $http, AuthService, Lib) {
@@ -39,8 +53,9 @@ angular.module('appModule')
   $scope.reset = function() {
     $scope.profile = {};
   };
+
   $scope.register = function(profile) {
-      return $http
+    return $http
       .post('/user/rest/register', profile)
       .then(function (res) {
         if (res.data.success) {

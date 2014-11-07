@@ -7,17 +7,36 @@ from ext.core.lib.rest_auth import login, requires_auth, requires_anonym, get_cu
 from .model.user import UserModel
 
 
-@app.route('/user/profile/get', methods=['POST'])
+@app.route('/user/profile/get', methods=['GET'])
 @requires_auth
 def get_profile_route():
   '''
     - It returns the profile of the current user.
   '''
   user = get_current_user();
+  user_model = UserModel.load_by_id(user['id'])
   return jsonify(dict(
-    id=user.id,
-    email=user.email,
-    name=user.name
+    id=user_model.id,
+    email=user_model.email,
+    name=user_model.name
+  ))
+
+@app.route('/user/profile/update', methods=['POST'])
+@requires_auth
+def update_profile_route():
+  '''
+    - It updates the profile of the current user.
+
+    @test = false
+  '''
+  profile = json.loads(request.data)
+  print profile
+  try:
+    UserModel.update_profile(profile)
+  except Exception, e:
+    print e
+  return jsonify(dict(
+    success=True
   ))
 
 @app.route('/user/rest/login', methods=['POST'])
