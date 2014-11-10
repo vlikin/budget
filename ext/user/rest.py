@@ -26,15 +26,19 @@ def get_profile_route():
 def update_profile_route():
   '''
     - It updates the profile of the current user.
-
-    @test = false
   '''
   profile = json.loads(request.data)
-  print profile
+  user_id = profile['id']
+  user = UserModel.load_by_id(user_id)
   try:
-    UserModel.update_profile(profile)
-  except Exception, e:
-    print e
+    user.update_profile(profile)
+  except Exception, message:
+    return jsonify(dict(
+      success=False,
+      message=message
+    ))
+
+  user = UserModel.load_by_id(user_id)
   return jsonify(dict(
     success=True
   ))

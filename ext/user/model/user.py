@@ -80,3 +80,5 @@ class UserModel(UserTable):
 
     for key in profile:
       setattr(self, key, profile[key])
+    db.session.add(self)
+    db.session.commit()

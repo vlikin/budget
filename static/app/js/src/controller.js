@@ -36,15 +36,27 @@ angular.module('appModule')
     });
 })
 
-.controller('User-ProfileEditController', function ($scope, $http) {
+.controller('User-ProfileEditController', function ($scope, $http, $location, Lib) {
   $scope.profile = {};
   $http
     .get('/user/profile/get')
     .then(function (res) {
 
       $scope.profile = res.data;
-      console.log($scope.profile);
     });
+
+  $scope.update = function(profile) {
+    return $http
+      .post('/user/profile/update', profile)
+      .then(function (res) {
+        if (res.data.success) {
+          $location.path('/user/profile/view');
+          Lib.ShowMessage('You have been updated the profile.', 'success');
+        }
+
+        return res.data;
+      });
+  };
 })
 
 .controller('User-SignupController', function ($scope, $location, $http, AuthService, Lib) {

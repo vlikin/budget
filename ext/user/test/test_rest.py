@@ -21,17 +21,18 @@ class UserRestTestCase(BaseTestCase):
     form_data.update(user_dict)
     response = self.post_json('/user/rest/register', data=form_data)
     response_dict = json.loads(response.data)
+    user_dict['id'] = response_dict['user']['id']
     assert response_dict['success'] == True and response_dict['user']['email'] == user_dict['email'] and response_dict['message'] == 'You have been registered into the system successfuly.'
 
     # User log in failure.
     response = self.post_json('/user/rest/login', data=dict(email='email', password='password'))
-    response_user_dict=json.loads(response.data)
-    assert response_user_dict['success'] == False and response_user_dict['message'] == 'Wrong authentication data.'
+    response_dict=json.loads(response.data)
+    assert response_dict['success'] == False and response_dict['message'] == 'Wrong authentication data.'
 
     # Logs in a user.
     response = self.post_json('/user/rest/login', data=user_dict)
-    response_user_dict=json.loads(response.data)
-    assert response_user_dict['success'] == True and response_user_dict['user']['email'] == user_dict['email']
+    response_dict=json.loads(response.data)
+    assert response_dict['success'] == True and response_dict['user']['id'] == user_dict['id'] and response_dict['user']['email'] == user_dict['email']
 
     # Email does not exist.
     response = self.post_json('/user/rest/email_is_free', data=dict(email='wrong@example.com'))
@@ -49,22 +50,20 @@ class UserRestTestCase(BaseTestCase):
 
     # The current user is returned.
     response = self.client.get('/user/rest/current')
-    response_user_dict=json.loads(response.data)
+    response_user_dict = json.loads(response.data)
     assert response_user_dict['name'] == user_dict['name'] and response.status_code == 200
 
     # The user profile is returned.
     response = self.client.get('/user/profile/get')
-    response_profile_dict=json.loads(response.data)
+    response_profile_dict = json.loads(response.data)
     assert response_profile_dict['name'] == user_dict['name'] and response_profile_dict['email'] == user_dict['email'] and response.status_code == 200
 
     # The user profile is returned.
     response_profile_dict['name'] = '%s - changed' % response_profile_dict['name']
-    print response_profile_dict
     response = self.post_json('/user/profile/update', data=response_profile_dict)
-    print response
-    return
-    response_dict=json.loads(response.data)
-    assert response_dict['success'] and response.status_code == 200
+    response_dict = json.loads(response.data)
+    user_model = UserModel.load_by_id(user_dict['id'])
+    assert response_dict['success'] and user_model.name == response_profile_dict['name']
 
     # Logout.
     response = self.client.get('/user/rest/logout')
