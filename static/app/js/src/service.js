@@ -27,3 +27,16 @@ angular.module('appModule')
 
   return this;
 });
+
+.service('BudgetModel', function () {
+  this.budget_list = [];
+  this.GetList = function() {
+    $http
+      .get('/user/profile/get')
+      .then(function (res) {
+        $scope.profile = res.data;
+      });
+  };
+
+  return this;
+});
