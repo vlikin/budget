@@ -8,20 +8,50 @@ from .model.user import UserModel
 from .model.budget import BudgetModel
 
 
-@app.route('/user/<user_id>/get', methods=['GET'])
+@app.route('/budget/index', methods=['GET'])
 @requires_auth
-def get_profile_route():
+def budget_index_route():
   '''
     - It returns the profile of the current user.
 
     @test = false
   '''
-  if user_id == 'user'
-    user = get_current_user();
-    user_id = user['id']
-  
   return jsonify(dict(
-    id=user_model.id,
-    email=user_model.email,
-    name=user_model.name
+    success = True
+  ))
+
+@app.route('/budget/get/<int:id>', methods=['GET'])
+@requires_auth
+def budget_get_route(id):
+  '''
+    - It returns the profile of the current user.
+
+    @test = false
+  '''
+  return jsonify(dict(
+    success = True
+  ))
+
+@app.route('/budget/create', methods=['POST'])
+@requires_auth
+def budget_index_route():
+  '''
+    - It returns the profile of the current user.
+
+    @test = false
+  '''
+  return jsonify(dict(
+    success = True
+  ))
+
+@app.route('/budget/update', methods=['POST'])
+@requires_auth
+def budget_update_route():
+  '''
+    - It returns the profile of the current user.
+
+    @test = false
+  '''
+  return jsonify(dict(
+    success = True
   ))
