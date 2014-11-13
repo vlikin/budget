@@ -11,7 +11,7 @@ class TagTable(db.Model):
   )
 
   id = db.Column(db.Integer, primary_key=True)
-  title = db.Column(db.String(120), unique=True)
+  title = db.Column(db.String(120), unique=False)
   budget_id = db.Column(db.Integer, nullable=False)
   parent_id = db.Column(db.Integer, nullable=True)
   created = db.Column(db.DateTime, default=datetime.utcnow, nullable=False)
