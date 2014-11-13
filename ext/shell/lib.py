@@ -1,3 +1,8 @@
+import csv
+import os
+import json
+from datetime import datetime
+
 from app import db
 from ext.budget.model.budget import BudgetModel
 from ext.budget.model.tag import TagModel
@@ -20,12 +25,60 @@ def drop_all():
   '''
   db.drop_all()
 
-def init_test_db():
+def init_real_data_v1():
+  '''
+    - Fills the system by real data to test the interface by real users.
+  '''
+  rebuild_db()
+  data_dir = os.path.join(os.path.dirname(os.path.realpath(__file__)), 'real_data_v1')
+  print 'The process "init_real_data_v1" has been started.'
+  print 'path - %s' % data_dir
+
+  # User creation.
+  users = json.load(open(os.path.join(data_dir, 'users.json')))
+  for user in users:
+    user['obj'] = UserModel.register(user['email'], user['name'], user['password'])
+    user['id'] = user['obj'].id
+
+  # Budget creation.
+  budget = json.load(open(os.path.join(data_dir, 'budget.json')))
+  budget['obj'] = BudgetModel.create(budget['title'], users[0]['id'])
+  budget['id'] = budget['obj'].id
+  # Users are attached to the budget.
+  for user in  users[1:]:
+    budget['obj'].attach_user(user['obj'].id)
+
+  # Tag creation.
+  with open(os.path.join(data_dir, 'tags.json')) as json_file:
+    tags = json.load(json_file)
+
+  flat_tags = {}
+
+  def go_over(tags, parent=None):
+    for tag_name, tag in tags.items():
+      parent_id = parent['obj']['id'] if parent else None
+      tag['obj'] = TagModel.create(tag_name, budget['id'], parent_id)
+      flat_tags[tag_name] = tag
+      if '_' in tag:
+        go_over(tag['_'], parent)
+
+  go_over(tags)
+  # Contribution creation.
+  # @todo - Fill contributions.
+  # Expense creation.
+  with open(os.path.join(data_dir, 'expenses.csv')) as csv_file:
+    reader = csv.reader(csv_file)
+    for row in reader:
+      tag_list = [flat_tags[row[2]]['obj']]
+      user = users[0];
+      # @todo - pass expenses.
+      ExpenseModel.create(budget['id'], user['id'], row[1], tag_list, '')
+
+def init_test_db(test_data):
   '''
     - Fills the system by test data.
   '''
   rebuild_db()
-  from .test_data import test_data
 
   # User creation.
   for name in test_data['users']:

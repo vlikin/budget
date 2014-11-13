@@ -13,14 +13,23 @@ class BudgetModel(BudgetTable):
   @staticmethod
   def delete_by_id(id):
     '''
-      - It deletes a user by his id.
+      - It deletes a budget by his id.
     '''
     BudgetModel.query.filter(BudgetModel.id==id).delete()
 
   @staticmethod
-  def load_by_id(user_id):
+  def load_by_id(id):
+    '''
+      - It loads a budget by his id.
+    '''
+    return BudgetModel.query.filter(BudgetModel.id==id).first()
+
+  @staticmethod
+  def get_list(user_id=None):
     '''
       - It loads a user by his id.
+
+      @test = false
     '''
     return BudgetModel.query.filter(BudgetModel.id==user_id).first()
 
