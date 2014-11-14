@@ -14,6 +14,7 @@ script_manager = ScriptManager(app)
 
 # REST.
 import ext.user.rest
+import ext.budget.rest
 
 # Hooks.
 import ext.core.hook

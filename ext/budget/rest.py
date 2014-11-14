@@ -4,11 +4,10 @@ from flask import jsonify, request
 from app import app
 from ext.core.exception import LogicException
 from ext.core.lib.rest_auth import login, requires_auth, requires_anonym, get_current_user, logout, is_authenticated
-from .model.user import UserModel
-from .model.budget import BudgetModel
+from .table.budget import BudgetTable
+from .table.budget_user import BudgetUserTable
 
-
-@app.route('/budget/index', methods=['GET'])
+@app.route('/budget/index', methods=['POST'])
 @requires_auth
 def budget_index_route():
   '''
@@ -16,6 +15,13 @@ def budget_index_route():
 
     @test = false
   '''
+  user = get_current_user()
+  budget_list = db.session\
+    .query(BudgetTable)\
+    .select_from(BudgetTable)\
+    .outerjoin(BudgetUserTable, BudgetTable.id==BudgetUserTable.budget_id)\
+    .filter(BudgetUserTable.user_id==1)\
+    .all()
   return jsonify(dict(
     success = True
   ))
@@ -34,7 +40,7 @@ def budget_get_route(id):
 
 @app.route('/budget/create', methods=['POST'])
 @requires_auth
-def budget_index_route():
+def budget_create_route():
   '''
     - It returns the profile of the current user.
 

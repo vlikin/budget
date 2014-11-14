@@ -9,29 +9,48 @@ class BaseTestCase(TestCase):
     - It is a base TestCase class for the current project.
   '''
 
+  @classmethod
+  def setUpClass(cls):
+    print 'setUpClass'
+    import settings
+    settings.TESTING = True
+    settings.SQLALCHEMY_DATABASE_URI = 'sqlite:///test.sqlite'
+
+  def db_event_allocate(self):
+    '''
+      - It prepares the database for future usage.
+    '''
+    rebuild_db()
+
+  def db_event_dispose(self):
+    '''
+      - It disposes database resources.
+    '''
+    db.session.close()
+    drop_all()
+
   def setUp(self):
     '''
       - It prepares tests.
     '''
-    rebuild_db()
-    #init_test_db()
+    self.db_event_allocate()
     self.client = app.test_client()
 
   def tearDown(self):
     '''
       - It clears traces after the execution of tests.
     '''
-    db.session.close()
-    drop_all()
+    self.db_event_dispose()
 
-  def post_json(self, url, data):
+  def post_json(self, url, data={}):
     return self.client.post(url, data=json.dumps(data), content_type='application/json')
 
-  def login(self, name, password):
+  def login(self, email, password):
     '''
       - It logins an user to the system.
     '''
-    return self.app.post('/login/', data=dict(
-      name=name,
+    response = self.post_json('/user/rest/login', data=dict(
+      email=email,
       password=password,
-    ), follow_redirects=True)
+    ))
+    return json.loads(response.data)

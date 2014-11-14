@@ -37,7 +37,7 @@ def init_real_data_v1():
   # User creation.
   users = json.load(open(os.path.join(data_dir, 'users.json')))
   for user in users:
-    user['obj'] = UserModel.register(user['email'], user['name'], user['password'])
+    user['obj'] = UserModel.register(user['email'], user['password'], user['name'])
     user['id'] = user['obj'].id
 
   # Budget creation.
@@ -71,7 +71,7 @@ def init_real_data_v1():
     for row in reader:
       tag_list = [flat_tags[row[2]]['obj']]
       user = users[0];
-      # @todo - pass expenses.
+      # @todo - pass expenses expenses.
       ExpenseModel.create(budget['id'], user['id'], row[1], tag_list, '')
 
 def init_test_db(test_data):
