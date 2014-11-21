@@ -6,8 +6,6 @@ def init_real_data_v1():
     - Fills the system by real data to test the interface by real users.
   '''
   data_dir = os.path.dirname(os.path.realpath(__file__))
-  print 'The process "init_real_data_v1" has been started.'
-  print 'path - %s' % data_dir
 
   # Tag creation.
   with open(os.path.join(data_dir, 'tags.json')) as json_file:
