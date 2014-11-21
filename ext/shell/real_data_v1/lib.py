@@ -38,23 +38,26 @@ def init_real_data_v1():
   )
 
 def display_tree(tags):
+  '''
+    - It renders HTML tree view of tags.
+  '''
   if type(tags) is dict and tags.has_key('_'):
     tags = tags['_']
 
   def go_over(tags, parent=None):
     '''
-      - 
+      - It goes over a tag tree.
     '''
     html = ''
     for tag_name, tag in tags.items():
-      parent_id = parent['obj']['id'] if parent else None
       html_item = '<li><span>%s</span>' % tag_name
       if '_' in tag:
         html_inside = go_over(tag['_'], tag)
-        html_item = '<ul>%s</ul>' % html_inside
+        html_item = '%s<ul>%s</ul>' % (html_item, html_inside)
       html_item = '%s</li>' % html_item
+      html = '%s%s' % (html, html_item)
 
-    return html_item
+    return html
 
-  return go_over(tags)
+  return HTML(go_over(tags))
 
