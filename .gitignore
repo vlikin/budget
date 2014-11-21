@@ -5,3 +5,4 @@
 db.sqlite
 test.sqlite
 static/app/js/node_modules*
+*.ipynb_checkpoints*
