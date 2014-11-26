@@ -13,16 +13,26 @@ def init_real_data_v1():
 
   flat_tags = {}
 
-  def go_over(tags, parent=None):
-    for tag_name, tag in tags.items():
-      parent_id = parent['obj']['id'] if parent else None
-      flat_tags[tag_name] = tag
-      flat_tags[tag_name]['expenses'] = list()
-      flat_tags[tag_name]['volume'] = 0
-      if '_' in tag:
-        go_over(tag['_'], parent)
+  def calculate_level_callback(tag_name, tag, scope):
+    '''
+    '''
+    if not tag['parent']:
+      tag['level'] = 0
+    else:
+      if 'level' not in tag['parent']:
+        tag['parent']['level'] = 0
+      tag['level'] = tag['parent']['level'] + 1
 
-  go_over(tags)
+  go_over(calculate_level_callback, tags)
+
+  def flat_tags_callback(tag_name, tag, flat_tags):
+    flat_tags[tag_name] = tag
+    flat_tags[tag_name]['expenses'] = list()
+    flat_tags[tag_name]['volume'] = 0
+
+  go_over(flat_tags_callback, tags, None, flat_tags)
+
+  # It fills expenses.
   expenses = []
   with open(os.path.join(data_dir, 'expenses.csv')) as csv_file:
     reader = csv.reader(csv_file)
@@ -34,11 +44,33 @@ def init_real_data_v1():
         flat_tags[tag]['volume'] = flat_tags[tag]['volume'] + float(expense[1].replace(',', '.')) 
         flat_tags[tag]['expenses'].append(expense)
 
+  # It calculates capacities of groups.
+  def calculate_capacity(tag_name, tag):
+    capacity = tag['volume']
+    if '_' in tag:
+      for inside_tag_name, inside_tag in tag['_'].iteritems():
+        if '_' not in tag or len(tag['_']) == 0:
+          capacity = capacity + inside_tag['volume']
+        else:
+          capacity = capacity + calculate_capacity(inside_tag_name, inside_tag)
+    tag['capacity'] = capacity
+    return capacity
+
+  for tag_name, tag in tags.iteritems():
+    calculate_capacity(tag_name, tag)
+
   return dict(
     tags=tags,
     flat_tags=flat_tags,
     expenses=expenses
   )
+
+def go_over(callback, tags, parent=None, scope=None):
+  for tag_name, tag in tags.items():
+    tag['parent'] = parent
+    callback(tag_name, tag, scope)
+    if '_' in tag:
+      go_over(callback, tag['_'], tag, scope)
 
 
 def display_tree(tags):
