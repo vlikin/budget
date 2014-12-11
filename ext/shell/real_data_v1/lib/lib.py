@@ -86,7 +86,7 @@ def load_expenses(path):
   with open(path) as csv_file:
     reader = csv.reader(csv_file)
     for row in reader:
-      date = datetime.strptime(row[0], '%m.%d.%Y')
+      date = datetime.strptime(row[0], '%d.%m.%Y')
       value = float(row[1])
       tag_list = [ s.strip() for s in row[2].split(',') ]
       expense = [date, value, tag_list]
