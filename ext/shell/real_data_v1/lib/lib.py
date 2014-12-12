@@ -1,10 +1,20 @@
+from collections import OrderedDict
 from copy import deepcopy
 from datetime import datetime
 from IPython.display import HTML
 
+
 import csv
 import json
 import pdb
+
+def draw_tag_volume(tags, expenses):
+  '''
+    - It draws a graph tag/volume.
+
+    @testable = false
+  '''
+  flat_tags = OrderedDict(sorted(flat_tags.iteritems(), key=lambda (k, v): v['volume'], reverse=True))
 
 def display_tree(tags):
   '''
@@ -87,7 +97,7 @@ def load_expenses(path):
     reader = csv.reader(csv_file)
     for row in reader:
       date = datetime.strptime(row[0], '%d.%m.%Y')
-      value = float(row[1])
+      value = float(row[1].replace(',', '.'))
       tag_list = [ s.strip() for s in row[2].split(',') ]
       expense = [date, value, tag_list]
       expenses.append(expense)
