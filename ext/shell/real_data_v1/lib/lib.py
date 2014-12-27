@@ -44,7 +44,20 @@ class Analyze(object):
     self.flat_tags = get_flat_tags(self.tags)
     self.expenses = []
     for expense in self.loaded_expenses:
-      if (self.start_date == None and self.finish_date == None) or (self.start_date != None and self.start_date >= expense[0]) or (self.finish_date != None and self.finish_date <= expense[0]):
+      if (
+        self.start_date == None and self.finish_date == None) or\
+        (
+          (self.start_date != None and self.start_date <= expense[0]) and \
+          (self.finish_date != None and self.finish_date >= expense[0])
+        ) or\
+        (
+          self.start_date == None and \
+          (self.finish_date != None and self.finish_date >= expense[0])
+        ) or\
+        (
+          (self.start_date != None and self.start_date <= expense[0]) and \
+          self.finish_date == None
+        ):
         self.expenses.append(expense)
     attach_expenses2tags(self.expenses, self.tags)
     calculate_tags_capacity(self.tags)
@@ -52,6 +65,8 @@ class Analyze(object):
   def summary(self):
     loaded_date_list = [ expense[0] for expense in self.loaded_expenses ]
     date_list = [ expense[0] for expense in self.expenses ]
+    all_expenses_sum = sum([ expense[1] for expense in self.loaded_expenses ])
+    expenses_sum = sum([ expense[1] for expense in self.expenses ])
 
 
     return dict(
@@ -63,7 +78,9 @@ class Analyze(object):
       max_date=max(date_list),
       count_tags=len(self.flat_tags),
       start_date=self.start_date,
-      finish_date=self.finish_date
+      finish_date=self.finish_date,
+      all_expenses_sum=all_expenses_sum,
+      expenses_sum=expenses_sum
     )
 
   def analyze_1(self):
