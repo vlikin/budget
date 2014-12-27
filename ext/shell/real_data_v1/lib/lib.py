@@ -2,19 +2,113 @@ from collections import OrderedDict
 from copy import deepcopy
 from datetime import datetime
 from IPython.display import HTML
+from pylab import plt
 
 
 import csv
 import json
 import pdb
+import os
 
-def draw_tag_volume(tags, expenses):
+class Analyze(object):
+  '''
+
+    @test = false
+  '''
+
+  def __init__(self, data_folder):
+    self.tags = {}
+    self.expenses = []
+    self.loaded_tags = {}
+    self.loaded_expenses = {}
+    self.start_date = None;
+    self.finish_date = None
+    self.__load_data(data_folder)
+
+  def __load_data(self, data_folder):
+    '''
+      - It loads data from a folder.
+    '''
+    tags_path = os.path.join(data_folder, 'tags.json')
+    expenses_path = os.path.join(data_folder, 'expenses.csv')
+    self.loaded_tags = load_tags(tags_path)
+    self.loaded_expenses = load_expenses(expenses_path)
+
+  def prepare(self, start_date=None, finish_date=None):
+    '''
+      - It prepares data for the futher analyze.
+    '''
+    self.start_date = datetime.strptime(start_date, '%d.%m.%Y') if start_date else None
+    self.finish_date = datetime.strptime(finish_date, '%d.%m.%Y') if finish_date else None
+    self.tags = prepare_tags(self.loaded_tags)
+    self.flat_tags = get_flat_tags(self.tags)
+    self.expenses = []
+    for expense in self.loaded_expenses:
+      if (self.start_date == None and self.finish_date == None) or (self.start_date != None and self.start_date >= expense[0]) or (self.finish_date != None and self.finish_date <= expense[0]):
+        self.expenses.append(expense)
+    attach_expenses2tags(self.expenses, self.tags)
+    calculate_tags_capacity(self.tags)
+
+  def summary(self):
+    loaded_date_list = [ expense[0] for expense in self.loaded_expenses ]
+    date_list = [ expense[0] for expense in self.expenses ]
+
+
+    return dict(
+      loaded_min_date=min(loaded_date_list),
+      loaded_max_date=max(loaded_date_list),
+      count_loaded_expenses=len(self.loaded_expenses),
+      count_expenses=len(self.expenses),
+      min_date=min(date_list),
+      max_date=max(date_list),
+      count_tags=len(self.flat_tags),
+      start_date=self.start_date,
+      finish_date=self.finish_date
+    )
+
+  def analyze_1(self):
+    '''
+      - It draws volumes for every tag.
+    '''
+    flat_tags = OrderedDict(sorted(self.flat_tags.iteritems(), key=lambda (k, v): v['volume'], reverse=True))
+    volumes = [tag['volume'] for tag_name, tag in flat_tags.items() ]
+    levels = [tag['level'] for tag_name, tag in flat_tags.items() ]
+    draw_tag_volume(flat_tags.keys(), volumes, title="Volumes of tags")
+
+  def analyze_2(self):
+    '''
+      - It draws capacities for every tag.
+    '''
+    flat_tags = OrderedDict(sorted(self.flat_tags.iteritems(), key=lambda (k, v): v['capacity'], reverse=True))
+    capacities = [tag['capacity'] for tag_name, tag in flat_tags.items() ]
+    levels = [tag['level'] for tag_name, tag in flat_tags.items() ]
+    draw_tag_volume(flat_tags.keys(), capacities, levels, title="Capacities of tags")
+
+  def analyze_3(self, tag_names):
+    flat_tags = OrderedDict([ (tag_name, self.flat_tags[tag_name]) for tag_name in tag_names])
+    capacities = [ tag['capacity'] for tag_name, tag in flat_tags.items() ]
+    draw_tag_volume(flat_tags.keys(), capacities, title="Capacities of selected tags")
+
+def draw_tag_volume(labels, volumes, levels=None, xlabel="tag", ylabel="UAX", title="Expenses grouped by tags."):
   '''
     - It draws a graph tag/volume.
 
     @testable = false
   '''
-  flat_tags = OrderedDict(sorted(flat_tags.iteritems(), key=lambda (k, v): v['volume'], reverse=True))
+  all_colors = 'rgbkymc';
+  fig = plt.figure(figsize=(15, 5), dpi=400)
+  axes = fig.add_axes([0.1, 0.1, 0.8, 0.8]) # left, bottom, width, height (range 0 to 1)
+  ticks = range(len(labels))
+  axes.set_xticks(ticks)
+  axes.set_xticklabels(labels, fontsize=8)
+  if levels == None:
+    colors = None
+  else:
+    colors = [ all_colors[level] for level in levels ]
+  axes.bar(ticks, volumes, color=colors)
+  axes.set_xlabel(xlabel)
+  axes.set_ylabel(ylabel)
+  axes.set_title(title);
 
 def display_tree(tags):
   '''
