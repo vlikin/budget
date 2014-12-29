@@ -1,5 +1,5 @@
 {
- "Entertainment": {
+  "Entertainment": {
     "_": {
       "Billiards": {},
       "Cafe": {},
@@ -11,28 +11,24 @@
       "EDrinks": {},
     }
   },
- "Medicine": {
+  "Medicine": {
     "_": {
       "Drags": {},
-      "Napkins": {},
+      "Napkins": {}
     }
   },
- "Office Equipment": {
-    "_": {
-      "Photocopy": {},
-      "Passport": {},
-      "Document for driving licence": {},
-      "Driving Llicence": {},
-    }
-  },
- "Food": {
+  "Office Equipment": {},
+  "Chemicals": {},
+  "Clothes": {},
+  "Gift": {}, 
+  "Food": {
     "_": {
       "Nutg": {},
       "Milkg": {},
       "Meatg": {},
       "Meatg": {},
       "Drinksg": {},
-      "Alcogolg": {},
+      "Liquorg": {},
       "Vegetablesg": {},
       "Sweet": {},
       "Spice": {},
@@ -41,20 +37,16 @@
       "Bread": {},
       "Fish": {},
       "Oil": {},
-      "Gum": {},
     }
   },
-  "Chemicals": {},
-  "Clothes": {},
-  "Gift": {}, 
- 
   "Rent": {
     "_": {
       "Per Month": {},
       "Realtor": {},
       "Electric Light": {},
     }
-},   
+}, 
+  "Hairdressing_Salon": {},
   "Internet": {},
   "Phone": {},
   "Bank": {
@@ -62,5 +54,4 @@
       "BCommission": {},
     }
   },
-  "Hairdressing_Salon": {},
 }

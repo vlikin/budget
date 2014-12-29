@@ -1,0 +1,43 @@
+{
+  "Sport": {
+    "_": {
+      "SEquipment": {}
+    }
+  },
+  "Transport": {
+    "_": {
+      "Minibus k-c": {},
+      "Metro": {},
+      "Minibus": {}
+    }
+  },
+  "Meal": {
+    "_": {
+      "Lunch": {},
+      "Dinner": {},
+      "Supper": {}
+    }
+  },
+  "Hostel": {},
+  "Car": {
+    "_": {
+      "Petrol": {},
+      "Parking": {}
+    }
+  },
+  "Bank": {
+    "_": {
+      "Entertainment": {},
+      "Billiards": {},
+      "EDrinks": {}
+    }
+  },
+  "Medicine": {
+    "_": {
+      "Drags": {},
+      "Napkins": {}
+    }
+  },
+  "Clothes": {},
+  "Phone": {}
+}
