@@ -1,0 +1,61 @@
+{
+    "Entertainment": {
+        "_": {
+            "Billiards": {},
+            "Cafe": {},
+            "Poker": {},
+            "Bowling": {},
+            "EFood": {},
+            "Cinema": {},
+            "EDrinks": {}
+        }
+    },
+    "Medicine": {
+        "_": {
+            "Drags": {},
+            "Hygiene": {}
+        }
+    },
+    "Office Equipment": {},
+    "Services": {
+        "_": {
+            "Education": {}
+        }
+    },
+    "Food": {
+        "_": {
+            "Nutg": {},
+            "Eggs": {},
+            "Milkg": {},
+            "Meatg": {},
+            "Drinksg": {},
+            "Alcogolg": {},
+            "Vegetablesg": {},
+            "Sweet": {},
+            "Spice": {},
+            "Fruitg": {},
+            "Cerealsg": {
+                "_": {
+                    "Sugar": {}
+                }
+            },
+            "Bread": {},
+            "Fish": {},
+            "Oil": {},
+            "Gum": {}
+        }
+    },
+    "Chemicals": {},
+    "Clothes": {},
+    "Gift": {},
+    "Rent": {
+        "_": {
+            "Per Month": {},
+            "Realtor": {},
+            "Electric Light": {}
+        }
+    },
+    "Internet": {},
+    "Phone": {},
+    "Home": {}
+}
