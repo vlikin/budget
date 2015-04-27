@@ -1,0 +1,12 @@
+- hosts: budget
+  gather_facts: yes
+  sudo: true
+  vars_files:
+  - variables.yml
+  tasks:
+  - include: sysutils.yml
+  - include: project.yml
+  - include: develop.yml
+  handlers:
+  - include: handlers.yml
+

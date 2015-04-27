@@ -1,0 +1,102 @@
+- name: Installs php.
+  apt:
+    pkg: "{{ item }}"
+    update_cache: true
+  with_items:
+  - php5-fpm
+  - php5-cli
+  - php5-mysql
+  - php5-curl
+  - php5-gd
+  - nginx
+  - mysql-server
+  - python-mysqldb # For the ansible command - mysql_user
+  when: install
+
+- name: Copies nginx vhost configuration in place.
+  template:
+    src: nginx-vh.j2
+    dest: /etc/nginx/sites-available/{{ project_name }}
+    owner: root
+    group: root
+    mode: 0644
+  when: install
+
+- name: Links the Virtual host.
+  file:
+    src: /etc/nginx/sites-available/{{ project_name }}
+    dest: /etc/nginx/sites-enabled/{{ project_name }}
+    owner: root
+    group: root
+    mode: 0644
+    state: link
+  notify:
+    - Restart Nginx
+  when: install
+
+- name: Creates database for the project.
+  mysql_db:
+    name: "{{ project_name }}"
+    state: present
+  when: install
+
+- name: Updates MySQL root password for all root accounts
+  mysql_user:
+    name: root
+    host: "{{ item }}"
+    password: "{{ mysql_root_db_pass }}"
+  with_items:
+    - "{{ ansible_hostname }}"
+    - 127.0.0.1
+    - ::1
+    - localhost
+  when: install
+
+- name: Installs Composer into the current directory.
+  shell: >
+    curl -sS https://getcomposer.org/installer | php
+      creates={{ composer_path }}
+  when: install
+
+- name: Moves Composer into globally-accessible location.
+  shell: >
+    mv composer.phar {{ composer_path }}
+      creates={{ composer_path }}
+  when: install
+
+- name: Update Composer to latest version (if configured).
+  shell: >
+    php {{ composer_path }} self-update
+      register: composer_update
+  changed_when: "'Updating to version' in composer_update.stdout"
+  when: composer_keep_updated
+
+- name: "Checkout Drush repository"
+  git:
+    dest: "{{ drush_git_dest }}"
+    repo: "{{ drush_git_repo }}"
+    version: "{{ drush_git_version }}"
+  when: install
+
+- name: "Create Drush binary symlink"
+  file: path={{ drush_git_bin }} src={{ drush_git_dest }}/drush state=link
+  when: install
+
+- name: Update Drush libraries
+  shell:  composer install
+  args:
+    chdir: "{{ drush_git_dest }}"
+  when: install
+
+- name: Install Drupal.
+  shell: >
+    drush si -y
+    --site-name="{{ site_name }}"
+    --account-name={{ site_user }}
+    --account-pass={{ site_pass }}
+    --db-url=mysql://{{ site_db_user }}:{{ site_db_pass }}@localhost/{{ site_db_name }}
+  args:
+    chdir: "{{ site_path }}"
+    sudo: yes
+    sudo_user: www-data
+  when: install

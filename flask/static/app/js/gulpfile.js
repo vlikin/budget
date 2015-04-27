@@ -7,7 +7,7 @@ var gulp = require('gulp'),
     watch = require('gulp-watch'); // Watch, that actually is an endless stream.
 
 gulp.task('compile_app', function () {
-  gulp.src(['src/**/*.js'])
+  gulp.src(['www/js/src/**/*.js'])
     .pipe(plumber())
     .pipe(sourcemaps.init())
     .pipe(concat('app.js'))

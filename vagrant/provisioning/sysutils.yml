@@ -1,0 +1,9 @@
+- name: "Install system utils"
+  apt:
+    pkg: "{{ item }}"
+    update_cache: false
+  with_items:
+    - htop
+    - mc
+    - git
+  when: install
