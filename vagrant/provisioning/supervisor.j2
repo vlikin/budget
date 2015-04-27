@@ -1,0 +1,7 @@
+[program:flask_project]
+command = /var/www/.env/bin/gunicorn application:app -b localhost:8000
+directory = /var/www/budget/flask
+user = root
+autostart=true
+autorestart=true
+stdout_logfile=/var/www/budget/logs/supervisor.log

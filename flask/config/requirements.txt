@@ -6,5 +6,6 @@ MarkupSafe==0.23
 SQLAlchemy==0.9.7
 Werkzeug==0.9.6
 argparse==1.2.1
+gunicorn==19.3.0
 itsdangerous==0.24
 wsgiref==0.1.2

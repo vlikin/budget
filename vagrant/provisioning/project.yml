@@ -1,0 +1,54 @@
+- name: Installs packaegs.
+  apt:
+    pkg: "{{ item }}"
+    update_cache: true
+  with_items:
+  - python-pip
+  - python-virtualenv
+  - nginx
+  - supervisor
+  when: install
+
+- name: Installs virtualenv.
+  pip: 
+    requirements: /var/www/budget/flask/config/requirements.txt
+    virtualenv: /var/www/.env
+  when: install
+
+- name: Installs Gunicorn.
+  pip: 
+    requirements: /var/www/budget/flask/config/requirements.txt
+    virtualenv: /var/www/.env
+  when: install
+
+- name: Copies nginx vhost configuration in place.
+  template:
+    src: nginx-vh.j2
+    dest: /etc/nginx/sites-available/{{ project_name }}
+    owner: root
+    group: root
+    mode: 0644
+  when: install
+
+- name: Links the Virtual host.
+  file:
+    src: /etc/nginx/sites-available/{{ project_name }}
+    dest: /etc/nginx/sites-enabled/{{ project_name }}
+    owner: root
+    group: root
+    mode: 0644
+    state: link
+  notify:
+    - Restart Nginx
+  when: develop
+
+- name: Configures Supervisor.
+  template:
+    src: supervisor.j2
+    dest: /etc/supervisor/conf.d/flask_project.conf
+    owner: root
+    group: root
+    mode: 0644
+  notify:
+    - Restart Supervisor
+  when: develop
